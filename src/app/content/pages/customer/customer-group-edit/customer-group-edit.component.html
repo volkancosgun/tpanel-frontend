@@ -1,0 +1,103 @@
+<m-portlet [options]="{headLarge:true, enableSticky:true}" [loading$]="loading$">
+    <!-- b::Head -->
+    <ng-container mPortletHeadTitle>
+        <div class="m-portlet__head-title">
+            <h3 class="m-portlet__head-text">{{ getComponentTitle() }}</h3>
+        </div>
+    </ng-container>
+    <!-- e::Head -->
+
+    <!-- b::Head Tools -->
+    <ng-container mPortletHeadTools>
+        <button type="button" (click)="goBack()" mat-raised-button matTooltip="{{'BUTTON.INFO.BACK' | translate}}"><span translate="BUTTON.BACK">Geri</span></button>
+        <button mat-raised-button (click)="reset()" [disabled]="selectedTab !==0" matTooltip="{{'BUTTON.INFO.RESET_CHANGES' | translate}}"><span translate="BUTTON.RESET"></span></button>
+
+        <div class="m-buttons--wrapper">
+            <button type="button" (click)="onSubmit(false)" mat-raised-button color="primary" matTooltip="{{'BUTTON.INFO.SAVE_CONTINUE' | translate}}"><span translate="BUTTON.SAVE">Kaydet</span></button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+				<mat-icon>more_vert</mat-icon>
+			</button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item color="primary" (click)="onSubmit(true)"><span translate="BUTTON.SAVE_EXIT">Kaydet & Çık</span></button>
+                <button mat-menu-item color="primary" (click)="onSubmit(false, true)"><span translate="BUTTON.SAVE_NEW_FORM">Kaydet & Çık</span></button>
+                <!-- <button mat-menu-item color="primary" (click)="onSubmit(false)">Kaydet</button> -->
+            </mat-menu>
+        </div>
+    </ng-container>
+    <!-- e::Head Tools -->
+
+    <!-- b::Body -->
+    <ng-container mPortletBody>
+
+        <!-- b::Tabs -->
+        <mat-tab-group [(selectedIndex)]="selectedTab" *ngIf="group">
+            <!-- b::Tab (1) -->
+            <mat-tab label="{{'CUSTOMER.GROUPS.TAB.GROUP_DETAILS' | translate}}">
+                <!-- b::Form-->
+                <form [formGroup]="groupForm" class="m-form m-form--group-seperator-dashed">
+
+                    <m-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000" (close)="onAlertClose($event)">
+                        <span translate="FORM.REQUIRED.ERROR"></span>
+                    </m-alert>
+
+                    <div class="m-form__section m-form__section--first">
+                        <div class="m-form__group">
+                            <div class="row">
+
+                                <div class="col-md-6 m--margin-buttom-10-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="{{'CUSTOMER.GROUPS.FORM.GROUP_NAME' | translate}}" formControlName="name">
+                                        <mat-error><span translate="CUSTOMER.GROUPS.FORM.GROUP_NAME">Grup Adı</span>&nbsp; <strong><span translate="FORM.INPUT.REQUIRED">gerekli</span></strong></mat-error>
+                                        <mat-hint align="start"><span translate="FORM.INPUT.ENTER">Lütfen giriniz</span>&nbsp; <strong><span translate="CUSTOMER.GROUPS.FORM.GROUP_NAME">Grup Adı</span></strong></mat-hint>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-6 m--margin-bottom-10-mobile">
+                                    <div><span translate="CUSTOMER.GROUPS.FORM.STATUS">Durum</span>:</div>
+                                    <mat-radio-group formControlName="status" class="example-radio-group">
+                                        <mat-radio-button class="example-radio-button" [value]="1"><span translate="BALAMIR.STATUS.ACTIVE">Aktif</span></mat-radio-button>
+                                        <mat-radio-button class="example-radio-button" [value]="9"><span translate="BALAMIR.STATUS.DISABLE">Devre dışı</span></mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="m-form__group">
+                            <div class="row">
+                                <div class="col-md-12 m--margin-bottom-10-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <textarea matInput rows="7" placeholder="{{'CUSTOMER.GROUPS.FORM.GROUP_DESC' | translate}}" formControlName="description"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+                <!-- e::Form-->
+            </mat-tab>
+            <!-- b:: Tab (2) -->
+            <mat-tab label="{{'CUSTOMER.GROUPS.TAB.PRICE_SETTINGS' | translate}}" [disabled]="!group.id">
+                <ng-template matTabContent>
+                    <m-alert type="primary">
+                        Bu sekmede gruba özel fiyat ayarları belirlenecek.
+                    </m-alert>
+                </ng-template>
+            </mat-tab>
+            <!-- b:: Tab (3) -->
+            <mat-tab label="{{'CUSTOMER.GROUPS.TAB.OTHER_SETTINGS' | translate}}" [disabled]="!group.id">
+                <ng-template matTabContent>
+                    <m-alert type="primary">
+                        Bu sekmede diğer ayarlar belirlenecek.
+                    </m-alert>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+        <!-- e::Tabs -->
+
+    </ng-container>
+    <!-- e::Body -->
+
+</m-portlet>

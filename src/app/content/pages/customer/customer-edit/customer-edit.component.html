@@ -1,0 +1,238 @@
+<m-portlet [options]="{headLarge:true, enableSticky:true}" [loading$]="loading$">
+
+    <ng-container mPortletHeadTitle>
+        <div class="m-portlet__head-title">
+            <h3 class="m-portlet__head-text"> {{ getComponentTitle() }}</h3>
+        </div>
+    </ng-container>
+
+    <ng-container mPortletHeadTools>
+        <button type="button" (click)="goBack()" mat-raised-button matTooltip="{{'BUTTON.INFO.BACK' | translate}}"><span translate="BUTTON.BACK">Geri</span></button>
+        <button type="button" (click)="reset()" mat-raised-button matTooltip="{{'BUTTON.INFO.RESET_CHANGES' | translate}}"><span translate="BUTTON.RESET">Sıfırla</span></button>
+
+        <div class="m-buttons--wrapper">
+            <button type="button" (click)="onSubmit(false)" color="primary" mat-raised-button matTooltip="{{'BUTTON.INFO.SAVE_CONTINUE' | translate}}"><span translate="BUTTON.SAVE">Kaydet</span></button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+				<mat-icon>more_vert</mat-icon>
+			</button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item color="primary" (click)="onSubmit(true)"><span translate="BUTTON.SAVE_EXIT">Kaydet & Çık</span></button>
+                <button mat-menu-item color="primary" (click)="onSubmit(false, true)"><span translate="BUTTON.SAVE_NEW_FORM">Kaydet & Yeni Form</span></button>
+            </mat-menu>
+        </div>
+    </ng-container>
+    <ng-container mPortletBody *ngIf="customer">
+        <form [formGroup]="customerForm" class="m-form m-form--group-seperator-dashed">
+            <!-- Form Başlat -->
+            <mat-tab-group [(selectedIndex)]="selectedTab">
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon>info</mat-icon> Bilgiler
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <div class="m-form__section m-form__section--first">
+                            <div class="m-form__group">
+                                <div class="row">
+                                    <!-- Müşteri Grubu -->
+                                    <div class="col-md-4 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="Müşteri Grubu" formControlName="group_id" required>
+                                                <mat-option *ngFor="let item of groups;" [value]="item.id">{{item.name}}</mat-option>
+                                            </mat-select>
+                                            <!-- <mat-hint align="end">Lütfen seçiniz <strong>Müşteri Grubu:</strong></mat-hint> -->
+                                            <mat-error>Müşteri Grubu <strong>gerekli</strong></mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Firma Adı -->
+                                    <div class="col-md-4 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Firma Adı" formControlName="business_name" autocomplete="off">
+                                            <mat-hint align="start" *ngIf="!customerForm.controls.business_name.value">Lütfen giriniz <strong>Firma Adı:</strong></mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Firma Yetkilisi -->
+                                    <div class="col-md-4 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Firma Yetkilisi" formControlName="business_manager" autocomplete="off">
+                                            <mat-hint align="start" *ngIf="!customerForm.controls.business_manager.value">Lütfen giriniz <strong>Firma Yetkilisi:</strong></mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-form__group">
+                                <div class="row">
+                                    <!-- Adı -->
+                                    <div class="col-md-4 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Müşteri Adı" formControlName="name" autocomplete="off" required>
+                                            <mat-hint align="start" *ngIf="!customerForm.controls.name.value">Lütfen giriniz <strong>Müşteri Adı:</strong></mat-hint>
+                                            <mat-error>Müşteri Adı <strong>gerekli</strong></mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Soyadı -->
+                                    <div class="col-md-4 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Müşteri Soyadı" formControlName="sur_name" autocomplete="off">
+                                            <mat-hint align="start" *ngIf="!customerForm.controls.sur_name.value">Lütfen giriniz <strong>Müşteri Soyadı:</strong></mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Email -->
+                                    <div class="col-md-4 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Email" formControlName="email" autocomplete="off">
+                                            <mat-hint align="start" *ngIf="!customerForm.controls.email.value">Lütfen giriniz <strong>Email:</strong></mat-hint>
+                                            <mat-error>Email <strong>geçersiz</strong></mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-form__group">
+                                <div class="row">
+                                    <!-- Telefon -->
+                                    <div class="col-md-2 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="Alan Kodu" formControlName="phone_code">
+                                                <mat-option [value]="item.key" *ngFor="let item of phoneCodes">{{item.key}} {{item.name}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input type="tel" matInput placeholder="Telefon No" formControlName="phone" autocomplete="off">
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Mobil -->
+                                    <div class="col-md-2 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="Alan Kodu" formControlName="phone_mobil_code">
+                                                <mat-option [value]="item.key" *ngFor="let item of phoneCodes">{{item.key}} {{item.name}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input type="tel" matInput placeholder="Mobil No" formControlName="phone_mobil" autocomplete="off">
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Fax -->
+                                    <div class="col-md-2 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="Alan Kodu" formControlName="fax_code">
+                                                <mat-option [value]="item.key" *ngFor="let item of phoneCodes">{{item.key}} {{item.name}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2 m--margin-buttom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input type="tel" matInput placeholder="Fax No" formControlName="fax" autocomplete="off">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-form__group">
+                                <div class="row">
+                                    <!-- Açıklama -->
+                                    <div class="col-md-12 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <textarea matInput rows="7" placeholder="Açıklama / Müşteri Notu" formControlName="description"></textarea>
+                                            <mat-hint align="start">İsteğe bağlı boş bırakabilirsiniz <strong>Açıklama / Müşteri Notu:</strong></mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon>bookmarks</mat-icon> Ek Bilgiler
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <div class="m-form__group">
+                            <div class="row">
+                                <!-- IBAN -->
+                                <div class="col-md-4 m--margin-buttom-10-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="IBAN Numarası" formControlName="iban" autocomplete="off">
+                                        <mat-hint align="start" *ngIf="!customerForm.controls.iban.value">Lütfen giriniz <strong>IBAN Numarası:</strong></mat-hint>
+                                        <mat-error>IBAN Numarası<strong>gerekli</strong></mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- BIC -->
+                                <div class="col-md-4 m--margin-buttom-10-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="BIC Numarası" formControlName="bic" autocomplete="off">
+                                        <mat-hint align="start" *ngIf="!customerForm.controls.bic.value">Lütfen giriniz <strong>BIC Numarası:</strong></mat-hint>
+                                        <mat-error>BIC Numarası<strong>gerekli</strong></mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- SEPA -->
+                                <div class="col-md-4 m--margin-buttom-10-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="SEPA" formControlName="sepa" autocomplete="off">
+                                        <mat-hint align="start" *ngIf="!customerForm.controls.sepa.value">Lütfen giriniz <strong>SEPA:</strong></mat-hint>
+                                        <mat-error>SEPA <strong>gerekli</strong></mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="m-form__group">
+                            <div class="row">
+                                <!-- KDV Vergi Numarası -->
+                                <div class="col-md-4 m--margin-buttom-10-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="KDV Vergi Numarası" formControlName="tax_number" autocomplete="off">
+                                        <mat-hint align="start" *ngIf="!customerForm.controls.tax_number.value">Lütfen giriniz <strong>KDV Vergi Numarası:</strong></mat-hint>
+                                        <mat-error>KDV Vergi Numarası<strong>gerekli</strong></mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- Vergi Numarası -->
+                                <div class="col-md-4 m--margin-buttom-10-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Vergi Numarası" formControlName="tax" autocomplete="off">
+                                        <mat-hint align="start" *ngIf="!customerForm.controls.tax.value">Lütfen giriniz <strong>Vergi Numarası:</strong></mat-hint>
+                                        <mat-error>Vergi Numarası <strong>gerekli</strong></mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab [disabled]="!customer.id">
+                    <ng-template mat-tab-label>
+                        <mat-icon>place</mat-icon> Adresler
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <m-locations-list [customerId]="customer.id" [(loadingSubject)]="loadingSubject" *ngIf="customer.id"></m-locations-list>
+                        <div *ngIf="!customer.id">
+                            <m-notice [icon]="'flaticon-exclamation m--font-primary'">
+                                <p>Görünüşe göre müşteri için henüz kayıt oluşturmadınız.</p>
+                                <p>Bu sekmeyi aktif etmek (kullanabilmek) için lütfen <strong>"Kaydet"</strong> butonuna tıklayınız. (otomatik olarak kayıt açılacaktır)</p>
+                            </m-notice>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab disabled="true">
+                    <ng-template mat-tab-label>
+                        <mat-icon>settings</mat-icon> Ayarlar
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <p>Müşteri için tercihler buraya</p>
+                    </ng-template>
+                </mat-tab>
+
+            </mat-tab-group>
+        </form>
+
+
+    </ng-container>
+
+</m-portlet>

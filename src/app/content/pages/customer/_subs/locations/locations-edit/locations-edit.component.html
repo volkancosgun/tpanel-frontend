@@ -1,0 +1,142 @@
+<div class="m-portlet" [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+                <h3 class="m-portlet__head-text">
+                    {{ data.isNew ? 'Ekle' : 'Düzenle'}} Adres
+                </h3>
+            </div>
+        </div>
+    </div>
+    <!--begin::Form-->
+    <form class="m-form">
+        <div class="m-portlet__body">
+
+            <div class="m-portlet__body-progress">
+                <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+
+            <!-- Adres Tipi -->
+            <div class="m-form__section m-form__section--first">
+                <div class="form-group m-form__group">
+                    <div>Adres Tipi:</div>
+                    <mat-radio-group [formControl]="l_type">
+                        <div class="row">
+                            <div class="col-md-4 m--margin-buttom-10-mobile">
+                                <mat-radio-button value="BUSINESS"><span translate="CUSTOMER.LOCATION.TYPES.BUSINESS"></span></mat-radio-button><br>
+                                <mat-radio-button value="HOME"><span translate="CUSTOMER.LOCATION.TYPES.HOME"></span></mat-radio-button><br>
+                                <mat-radio-button value="BILLING"><span translate="CUSTOMER.LOCATION.TYPES.BILLING"></span></mat-radio-button><br>
+                            </div>
+                            <div class="col-md-4 m--margin-buttom-10-mobile">
+                                <mat-radio-button value="SHIPPING"><span translate="CUSTOMER.LOCATION.TYPES.SHIPPING"></span></mat-radio-button><br>
+                                <mat-radio-button value="CONTRACT"><span translate="CUSTOMER.LOCATION.TYPES.CONTRACT"></span></mat-radio-button><br>
+                                <mat-radio-button value="RECIPIENT"><span translate="CUSTOMER.LOCATION.TYPES.RECIPIENT"></span></mat-radio-button><br>
+                            </div>
+                            <div class="col-md-4 m--margin-buttom-10-mobile">
+                                <mat-radio-button value="OTHER"><span translate="CUSTOMER.LOCATION.TYPES.OTHER"></span></mat-radio-button>
+                            </div>
+                        </div>
+
+                    </mat-radio-group>
+                </div>
+
+                <!-- Adres / Konum bul... -->
+                <div class="form-group m-form__group">
+                    <div class="row">
+                        <div class="col-md-12 m--margin-buttom-10-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Adres / Konum bul..." (onPlaceChange)="placeChanged($event)" mapsearch>
+                                <mat-hint align="start">Örneğin <strong>Ankara, Türkiye</strong></mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Adres -->
+                <div class="form-group m-form__group">
+                    <div class="row">
+                        <div class="col-md-12 m--margin-buttom-10-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Adres" [formControl]="l_address">
+                                <mat-hint align="start" *ngIf="!l_address.value">Lütfen giriniz <strong>Açık adres</strong></mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ülke / Şehir -->
+                <div class="form-group m-form__group">
+                    <div class="row">
+                        <div class="col-md-6 m--margin-buttom-10-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Ülke" [formControl]="l_country">
+                                <mat-hint align="start" *ngIf="!l_country.value">Lütfen giriniz <strong>Ülke</strong></mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6 m--margin-buttom-10-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Şehir" [formControl]="l_city">
+                                <mat-hint align="start" *ngIf="!l_city.value">Lütfen giriniz <strong>Şehir</strong></mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eyalet / Posta Kodu -->
+                <div class="form-group m-form__group">
+                    <div class="row">
+                        <div class="col-md-6 m--margin-buttom-10-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Eyalet" [formControl]="l_locality">
+                                <mat-hint align="start" *ngIf="!l_locality.value">Lütfen giriniz <strong>Eyalet</strong></mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6 m--margin-buttom-10-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Posta Kodu" [formControl]="l_postal_code">
+                                <mat-hint align="start" *ngIf="!l_postal_code.value">Lütfen giriniz <strong>Posta Kodu</strong></mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sokak Cadde Numarası -->
+                <div class="form-group m-form__group">
+                    <div class="row">
+                        <div class="col-md-6 m--margin-buttom-10-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Sokak Cadde Numarası" [formControl]="l_street_number">
+                                <mat-hint align="start" *ngIf="!l_street_number.value">Lütfen giriniz <strong>Sokak Cadde Numarası</strong></mat-hint>
+                            </mat-form-field>
+                            <!-- <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="Lokasyon Türü" [formControl]="selectedLocationType">
+                                    <mat-option value="BUSINESS"><span translate="CUSTOMER.LOCATION.TYPES.BUSINESS"></span></mat-option>
+                                    <mat-option value="HOME"><span translate="CUSTOMER.LOCATION.TYPES.HOME"></span></mat-option>
+                                    <mat-option value="BILLING"><span translate="CUSTOMER.LOCATION.TYPES.BILLING"></span></mat-option>
+                                    <mat-option value="SHIPPING"><span translate="CUSTOMER.LOCATION.TYPES.SHIPPING"></span></mat-option>
+                                    <mat-option value="CONTRACT"><span translate="CUSTOMER.LOCATION.TYPES.CONTRACT"></span></mat-option>
+                                    <mat-option value="RECIPIENT"><span translate="CUSTOMER.LOCATION.TYPES.RECIPIENT"></span></mat-option>
+                                    <mat-option value="OTHER"><span translate="CUSTOMER.LOCATION.TYPES.OTHER"></span></mat-option>
+								</mat-select>
+							</mat-form-field> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit text-right">
+            <div class="m-form__actions m-form__actions m-form__actions--solid">
+                <button type="button" mat-raised-button cdkFocusInitial (click)="onNoClick()" matTooltip="{{'BUTTON.CANCEL_CHANGES' | translate}}"><span translate="BUTTON.CANCEL">İptal</span></button>&nbsp;
+                <button type="button" mat-raised-button color="primary" (click)="save()" [disabled]="!checkDataIsValid() || viewLoading" matTooltip="{{'BUTTON.SAVE_CHANGES' | translate}}"><span translate="BUTTON.SAVE">Kaydet</span></button>
+            </div>
+        </div>
+    </form>
+    <!--end::Form-->
+</div>
