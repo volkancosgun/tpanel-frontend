@@ -38,6 +38,8 @@ export const locale = {
 				ACTIVE: 'Aktif',
 				DISABLE: 'Devre dışı'
 			},
+			CURRENCY: 'Euro',
+			CURRENCY_SYMBOL: '€'
 		},
 		TRANSLATOR: {
 			SELECT: 'Lütfen dil seçiniz',
@@ -230,8 +232,39 @@ export const locale = {
 			MENU: {
 				TITLE: 'Ürün Yönetimi',
 				PRODUCTS: 'Ürünler',
+				CATEGORIES: 'Kategoriler',
 				CREATE: 'Yeni Ürün Oluştur',
 				LIST: 'Ürün Listesi',
+				EDIT_ITEM: 'Düzenle - {{name}}'
+			},
+			LIST: {
+				CREATE: 'Yeni Ürün Oluştur',
+				STATUS: {
+					UPDATE_MESSAGE: 'Ürünlerin durumlarını değiştirin:',
+					SUCCESS_MESSAGE: 'Ürünlerin durumları başarıyla güncellendi.',
+					1: 'Aktif',
+					9: 'Kullanım dışı',
+				},
+			},
+			EDIT: {
+				CREATE_MESSAGE: '{{name}} adlı ürün başarıyla oluşturuldu.',
+				UPDATE_MESSAGE: '{{name}} adlı ürün başarıyla düzenlendi.'
+			},
+			CATEGORY: {
+				CREATE: 'Yeni Kategori Oluştur',
+				ISEDIT: '{{name}} adlı kategoriyi düzenle',
+				LIST: 'Kategori Listesi',
+				EDIT: {
+					UPDATE_MESSAGE: '{{name}} adlı kategori başarıyla düzenlendi.',
+					CREATE_MESSAGE: '{{name}} adlı kategori başarıyla oluşturuldu.',
+				},
+				STATUS: {
+					UPDATE_MESSAGE: 'Kategorilerin durumlarını değiştirin:',
+					SUCCESS_MESSAGE: 'Kategorilerin durumları başarıyla güncellendi.',
+					ACTIVE: 'Aktif',
+					DISABLE: 'Devre dışı',
+					DELETE: 'Silinen'
+				},
 			}
 		},
 		ECOMMERCE: {

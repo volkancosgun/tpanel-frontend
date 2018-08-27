@@ -19,7 +19,7 @@ export class UpdateStatusDialogComponent implements OnInit {
 		this.viewLoading = true;
 		setTimeout(() => {
 			this.viewLoading = false;
-		}, 2500);
+		}, 1000);
 	}
 
 	onNoClick(): void {

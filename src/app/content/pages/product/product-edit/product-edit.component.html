@@ -1,0 +1,251 @@
+<m-portlet [options]="{headLarge:true, enableSticky:true}" [loading$]="loading$">
+
+    <ng-container mPortletHeadTitle>
+        <div class="m-portlet__head-title">
+            <h3 class="m-portlet__head-text"> {{ getTitle() }}</h3>
+        </div>
+    </ng-container>
+
+    <ng-container mPortletHeadTools>
+        <button type="button" (click)="pageBack()" mat-raised-button matTooltip="{{'BUTTON.INFO.BACK' | translate}}"><span translate="BUTTON.BACK">Geri</span></button>
+        <button type="button" (click)="reset()" mat-raised-button matTooltip="{{'BUTTON.INFO.RESET_CHANGES' | translate}}"><span translate="BUTTON.RESET">Sıfırla</span></button>
+
+        <div class="m-buttons--wrapper">
+            <button type="button" (click)="onSubmit(false)" color="primary" mat-raised-button matTooltip="{{'BUTTON.INFO.SAVE_CONTINUE' | translate}}"><span translate="BUTTON.SAVE">Kaydet</span></button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+				<mat-icon>more_vert</mat-icon>
+			</button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item color="primary" (click)="onSubmit(true)"><span translate="BUTTON.SAVE_EXIT">Kaydet & Çık</span></button>
+                <button mat-menu-item color="primary" (click)="onSubmit(false, true)"><span translate="BUTTON.SAVE_NEW_FORM">Kaydet & Yeni Form</span></button>
+            </mat-menu>
+        </div>
+    </ng-container>
+
+    <ng-container mPortletBody *ngIf="product">
+        <form [formGroup]="dataForm" class="m-form m-form--group-seperator-dashed">
+            <!-- Form Başlat -->
+            <mat-tab-group [(selectedIndex)]="selectedTab">
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon>info</mat-icon> Bilgiler
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <div class="m-form__section m-form__section--first">
+
+                            <div class="m-form__group">
+                                <div class="row">
+                                    <!-- Ürün Numarası -->
+                                    <!-- <div class="col-md-4 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Ürün Numarası" disabled value="Sistem tarafından otomatik oluşturulacaktır.">
+                                        </mat-form-field>
+                                    </div> -->
+
+                                    <!-- Ürün Kategorisi -->
+                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="Kategori" formControlName="category_id" required>
+                                                <!-- <mat-option>-</mat-option> -->
+                                                <mat-option *ngFor="let item of categories;" [value]="item.id">{{item.name}}</mat-option>
+                                            </mat-select>
+                                            <mat-error>Kategori <strong>gerekli</strong></mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- Marka -->
+                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="Marka / Model" formControlName="brand_id">
+                                                <!-- <mat-option>-</mat-option> -->
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="m-form__group">
+                                <div class="row">
+
+                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask placeholder="Fiyat" formControlName="price" required autocomplete="off">
+                                            <span matPrefix>€&nbsp;</span>
+                                            <mat-error>
+                                                Fiyat
+                                                <strong>gerekli</strong>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput [matDatepicker]="picker" placeholder="Son Kullanma Tarihi" formControlName="exp" autocomplete="off" />
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="m-form__group">
+                                <div class="row">
+                                    <!-- Ürün Adı -->
+                                    <div class="col-md-12 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Ürün Adı" formControlName="name" required autocomplete="off">
+                                            <mat-error>Ürün Adı <strong>gerekli</strong></mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-form__group">
+                                <div class="row">
+                                    <!-- Açıklama -->
+                                    <div class="col-md-12 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <textarea matInput rows="7" placeholder="Açıklama / Ürün Notu" formControlName="description"></textarea>
+                                            <mat-hint align="start" *ngIf="!dataForm.controls.description.value">İsteğe bağlı boş bırakabilirsiniz</mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon>attach_money</mat-icon> Birimler & Fiyatlar
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <div class="m-form__section m-form__section--first">
+                            <div class="m-form__group">
+                                <div class="row">
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask [options]="{precision:3}" placeholder="Net ağırlık" formControlName="n_weight" autocomplete="off">
+                                            <span matSuffix>Kg.&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask [options]="{precision:3}" placeholder="Brüt ağırlık" formControlName="g_weight" autocomplete="off">
+                                            <span matSuffix>Kg.&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask placeholder="Depozito ücreti" formControlName="deposit_fee" autocomplete="off">
+                                            <span matPrefix>€&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask placeholder="Fiyat" formControlName="price" autocomplete="off" required>
+                                            <mat-error>Fiyat <strong>gerekli</strong></mat-error>
+                                            <span matPrefix>€&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-form__group">
+                                <div class="row">
+
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="number" placeholder="Karton ürün adeti" formControlName="carton_total" autocomplete="off" min="1">
+                                            <mat-hint align="start">Kaç adet ürün bulunuyor?</mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask placeholder="Karton satış fiyatı" formControlName="carton_price" autocomplete="off">
+                                            <span matPrefix>€&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="number" placeholder="Palet ürün adeti" formControlName="palette_total" autocomplete="off" min="1">
+                                            <mat-hint align="start">Kaç adet ürün bulunuyor?</mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask placeholder="Palet satış fiyatı" formControlName="palette_price" autocomplete="off">
+                                            <span matPrefix>€&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="m-form__group">
+                                <div class="row">
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="number" placeholder="Konteyner ürün adeti" formControlName="container_total" autocomplete="off" min="1">
+                                            <mat-hint align="start">Kaç adet ürün bulunuyor?</mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask placeholder="Konteyner satış fiyatı" formControlName="container_price" autocomplete="off">
+                                            <span matPrefix>€&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab [disabled]="!product.id">
+                    <ng-template mat-tab-label>
+                        <mat-icon>photo_camera</mat-icon> Resimler
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <m-product-edit-image [productId]="product.id"></m-product-edit-image>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon>settings</mat-icon> Ayarlar
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <div class="m-form__section m-form__section--first">
+                            <div class="form__group">
+                                <div class="row">
+                                    <div class="col-md-12 m--margin-bottom-10-mobile">
+                                        <div><span>Ürün durumu</span>:</div>
+                                        <mat-radio-group formControlName="status" class="example-radio-group">
+                                            <mat-radio-button class="example-radio-button" [value]="1"><span translate="PRODUCT.LIST.STATUS.1">Aktif</span></mat-radio-button>
+                                            <mat-radio-button class="example-radio-button" [value]="9"><span translate="PRODUCT.LIST.STATUS.9">Devre dışı</span></mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+
+            </mat-tab-group>
+        </form>
+
+
+    </ng-container>
+
+</m-portlet>

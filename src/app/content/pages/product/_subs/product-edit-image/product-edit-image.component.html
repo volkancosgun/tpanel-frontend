@@ -1,0 +1,64 @@
+<gallery id="productGallery" imageSize="contain" [itemTemplate]="itemTemplate"></gallery>
+
+<ng-template #itemTemplate let-index="index" let-type="type" let-data="data" let-currIndex="currIndex">
+    <span *ngIf="type === 'image' && index === currIndex">
+                <button class="gallery-delete-button" mat-fab color="warn" type="button" (click)="removePhoto(data)" matTooltip="Bu resmi sil">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
+                    <a href="{{data.src}}" target="_blank" class="gallery-view-button" mat-fab matTooltip="Tam ekranda görüntüle">
+                            <mat-icon>fullscreen</mat-icon>
+                    </a>
+          </span>
+</ng-template>
+<hr>
+<div class="upload-box">
+    <div class="upload-box-header">
+        <div class="control-circles">
+        </div>
+        <div class="header-title">
+            <h2>Ürün resmi yükle</h2>
+        </div>
+        <div class="gh-icon">
+        </div>
+    </div>
+    <div class="upload-box-content">
+        <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput">
+            <p>
+                Dosyaları buraya sürükleyin veya
+                <label class="upload-button">
+  <input type="file" accept="image/*" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple> gözat
+</label> tıklayın.
+            </p>
+        </div>
+        <div class="upload-item" *ngFor="let f of files; let i = index;">
+            <div class="upload-item-content">
+                <div class="filename">
+                    <i class="ionicon ion-ios-copy"></i>
+                    <span>{{ f.name }}</span>
+                </div>
+                <div class="progress-content">
+                    <div class="progress">
+                        <span class="bar" [style.width]="f?.progress?.data?.percentage + '%'" [class.is-done]="f?.progress?.data?.percentage === 100"></span>
+                    </div>
+                </div>
+                <div class="progress-text-content">
+                    <span class="progress-text" [class.is-done]="f?.progress?.data?.percentage === 100">
+    <span>{{ f.progress?.data?.percentage }}% </span>
+                    <span *ngIf="f.progress?.data?.percentage !== 100">Yükleniyor...</span>
+                    <span *ngIf="f.progress?.data?.percentage === 100">Yüklendi</span>
+                    </span>
+                    <span class="speed-and-eta-text" *ngIf="f.progress?.data?.percentage !== 0 && f.progress?.data?.percentage !== 100">
+    <span>{{ f.progress?.data?.speedHuman }} </span>
+                    <span>ETA {{ f.progress?.data?.etaHuman }}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="help-text">
+        <span>Tek seferde en fazla {{options.maxUploads}} resim yükleyebilirsiniz.</span>
+    </div>
+</div>
+<br>
+<hr>

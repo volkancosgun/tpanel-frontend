@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@ngx-gallery/core/styles/scss/gallery';
+@import '~@ngx-gallery/core/styles/scss/lightbox';
 .mat-table__wrapper {
     width: 100%;
     overflow-x: auto;
@@ -67,6 +69,10 @@ mat-radio-button {
     flex: 0 0 68px;
 }
 
+.mat-column-select {
+    flex: 0 0 68px;
+}
+
 .mat-column-id {
     flex: 0 0 68px;
 }
@@ -101,6 +107,11 @@ mat-radio-button {
 
 .mat-column-status {
     margin-left: auto;
+}
+
+.mat-column-amount {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .mat-column-1 {

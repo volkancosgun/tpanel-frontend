@@ -37,7 +37,9 @@ export class TypesUtilsService {
             stringDate += this.isNumber(date.day) ? this.padNumber(date.day) + '/' : '';
 
             stringDate += date.year;
-        }
+		}
+		
+		console.log(stringDate);
         return stringDate;
 	}
 
@@ -86,5 +88,13 @@ export class TypesUtilsService {
 		const year = _date.getFullYear();
 		const date = _date.getDate();
 		return `${month}/${date}/${year}`;
+	}
+
+	getDateFromDataBase(_date: Date = new Date()): string {
+		const Y = _date.getFullYear();
+		const m = ((_date.getMonth() + 1) < 10 ? '0' : '') + (_date.getMonth() + 1);
+		const d = (_date.getDate() < 10 ? '0' : '') + _date.getDate();
+
+		return `${Y}-${m}-${d} 00:00:00`;
 	}
 }

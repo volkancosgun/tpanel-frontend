@@ -22,14 +22,9 @@ export class MenuConfig implements ConfigModel {
 							items: [
 								{
 									title: 'Yeni Müşteri Oluştur',
-									page: '/customer/create',
+									page: '/customer/creatse',
 									icon: 'flaticon-user-add',
 									translate: 'CUSTOMER.MENU.CREATE',
-								},
-								{
-									title: 'Yeni Ürün Oluştur',
-									page: '/product/create',
-									icon: 'flaticon-add-circular-button',
 								},
 								{
 									title: 'Sipariş Yönetimi',
@@ -105,7 +100,7 @@ export class MenuConfig implements ConfigModel {
 									{
 										title: 'Yeni Müşteri Oluştur',
 										page: '/customer/create',
-										translate: 'CUSTOMER.MENU.CREATE'
+										translate: 'CUSTOMER.MENU.CREATE',
 									},
 									{
 										title: 'Müşteri Listesi',
@@ -133,6 +128,37 @@ export class MenuConfig implements ConfigModel {
 							},
 						]
 					},
+					{
+						title: 'Ürün Yönetimi',
+						root: true,
+						bullet: 'dot',
+						icon: 'flaticon-tabs',
+						page: '/product',
+						submenu: [
+							{
+								title: 'Ürünler',
+								bullet: 'dot',
+								page: '/product/list',
+								submenu: [
+									{
+										title: 'Yeni Ürün Oluştur',
+										page: '/product/create'
+									},
+									{
+										title: 'Ürün Listesi',
+										page: '/product/list'
+									}
+								]
+
+							},
+							{
+								title: 'Kategoriler',
+								bullet: 'dot',
+								page: '/product/category/list',
+							}
+						]
+					},
+
 					/* {
 						title: 'Ürün Yönetimi',
 						root: true,
