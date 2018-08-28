@@ -37,6 +37,7 @@
                             <div class="m-form__group">
                                 <div class="row">
 
+                                    <!-- Ürün Kodu -->
                                     <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput placeholder="Ürün Kodu" formControlName="code" autocomplete="off" required>
@@ -69,18 +70,31 @@
                             <div class="m-form__group">
                                 <div class="row">
 
-                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                    <!-- Alış Fiyatı -->
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
-                                            <input matInput type="tel" currencyMask placeholder="Fiyat" formControlName="price" required autocomplete="off">
+                                            <input matInput type="tel" currencyMask placeholder="Alış Fiyatı" formControlName="purchase_price" required autocomplete="off">
                                             <span matPrefix>€&nbsp;</span>
                                             <mat-error>
-                                                Fiyat
+                                                Alış Fiyatı
                                                 <strong>gerekli</strong>
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
 
-                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                    <!-- Satış Fiyatı -->
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask placeholder="Satış Fiyatı" formControlName="price" required autocomplete="off">
+                                            <span matPrefix>€&nbsp;</span>
+                                            <mat-error>
+                                                Satış Fiyatı
+                                                <strong>gerekli</strong>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput [matDatepicker]="picker" placeholder="Son Kullanma Tarihi" formControlName="exp" autocomplete="off" />
                                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

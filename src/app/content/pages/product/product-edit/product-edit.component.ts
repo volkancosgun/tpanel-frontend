@@ -117,6 +117,7 @@ export class ProductEditComponent implements OnInit {
 			exp: [this.product.expiration_at, [Validators.nullValidator]],
 			n_weight: [this.product.n_weight],
 			g_weight: [this.product.g_weight],
+			purchase_price: [this.product.purchase_price],
 			deposit_fee: [this.product.deposit_fee],
 			carton_total: [this.product.carton_total],
 			carton_price: [this.product.carton_price],
@@ -164,6 +165,7 @@ export class ProductEditComponent implements OnInit {
 		_product.expiration_at = controls['exp'].value;
 		_product.n_weight = controls['n_weight'].value;
 		_product.g_weight = controls['g_weight'].value;
+		_product.purchase_price = controls['purchase_price'].value;
 		_product.deposit_fee = controls['deposit_fee'].value;
 		_product.carton_total = controls['carton_total'].value;
 		_product.carton_price = controls['carton_price'].value;
