@@ -1,0 +1,63 @@
+<div class="m-portlet" [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <span class="m-portlet__head-icon m--hide">
+							<i class="la la-gear"></i>
+						</span>
+                <h3 class="m-portlet__head-text">Markalar</h3>
+            </div>
+        </div>
+
+        <div class="m-portlet__head-tools">
+            <button type="button" (click)="createBrand()" mat-raised-button matToolTip="Marka Ekle" color="primary">
+						<span>Marka Ekle</span>
+					</button>
+        </div>
+
+    </div>
+
+
+
+    <div class="m-portlet__body">
+        <div class="m-portlet__body-progress">
+            <mat-spinner [diameter]="30"></mat-spinner>
+        </div>
+
+
+        <m-notice *ngIf="!brands?.length > 0" [icon]="'flaticon-exclamation m--font-primary'">
+            Henüz marka oluşturmadınız. <br>Yeni bir marka oluşturmak için, <strong>Marka Ekle</strong> butonuna tıklayınız.
+        </m-notice>
+
+        <div class="m-widget4">
+            <div class="m-widget4__item" *ngFor="let brand of brands">
+                <div class="m-widget4__img m-widget4__img--logo">
+                    <img *ngIf="!brand.logo" src="../assets/app/media/img/logos/nopicture.jpg">
+                    <img *ngIf="brand.logo" src="{{uploadUrl}}{{brand.logo}}" alt="">
+                </div>
+                <div class="m-widget4__info">
+                    <span class="m-widget4__title">
+						<a href="javascript:;" (click)="goModelPage(brand)">{{brand.name}}</a>
+					</span>
+                    <br>
+                    <!-- <span class="m-widget4__sub">Bu marka için model eklenmedi.</span> -->
+                </div>
+                <span class="m-widget4__ext">
+					<button mat-icon-button color="accent" type="button" (click)="goModelPage(brand)" matTooltip="Model Ekle"><mat-icon>add_circle</mat-icon></button>
+				</span>
+                <span class="m-widget4__ext">
+					<button type="button" mat-icon-button color="primary" (click)="editBrand(brand)" matTooltip="Düzenle"><mat-icon>create</mat-icon></button>
+				</span>
+                <span class="m-widget4__ext">
+					<button mat-icon-button color="warn" type="button" (click)="deleteBrand(brand)" matTooltip="Sil"><mat-icon>delete</mat-icon></button>
+				</span>
+            </div>
+        </div>
+
+        <m-notice *ngIf="brands?.length > 0" [icon]="'flaticon-exclamation m--font-primary'">
+            Kayıtlı toplam <strong>{{brands?.length}}</strong> marka bulunuyor.
+        </m-notice>
+
+    </div>
+
+</div>

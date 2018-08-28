@@ -4,6 +4,8 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductCategoryListComponent } from './product-category-list/product-category-list.component';
 import { AuthGuard } from '../auth/_guards/auth.guard';
 import { ProductEditComponent } from './product-edit/product-edit.component';
+import { ProductBrandListComponent } from './product-brand-list/product-brand-list.component';
+import { ProductModelListComponent } from './product-model-list/product-model-list.component';
 
 const routes: Routes = [
 	{
@@ -29,6 +31,16 @@ const routes: Routes = [
 		component: ProductCategoryListComponent,
 		canActivate: [AuthGuard]
 	},
+	{
+		path: 'brand/list',
+		component: ProductBrandListComponent,
+		canActivate: [AuthGuard]
+	},
+	{
+		path: 'model',
+		component: ProductModelListComponent,
+		canActivate: [AuthGuard]
+	}
 ];
 
 @NgModule({

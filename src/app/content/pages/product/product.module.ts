@@ -22,6 +22,10 @@ import { NgxUploaderModule } from 'ngx-uploader';
 import { GalleryModule, GalleryConfig } from  '@ngx-gallery/core';
 import { GallerizeModule } from  '@ngx-gallery/gallerize';
 import { LightboxModule } from  '@ngx-gallery/lightbox';
+import { ProductBrandListComponent } from './product-brand-list/product-brand-list.component';
+import { ProductBrandEditDialogComponent } from './product-brand-edit-dialog/product-brand-edit-dialog.component';
+import { ProductModelListComponent } from './product-model-list/product-model-list.component';
+import { ProductModelEditDialogComponent } from './product-model-edit-dialog/product-model-edit-dialog.component';
 
 const config: GalleryConfig = {
 	autoPlay: false,
@@ -44,13 +48,19 @@ const config: GalleryConfig = {
 	],
 	entryComponents: [
 		ProductCategoryEditDialogComponent,
+		ProductBrandEditDialogComponent,
+		ProductModelEditDialogComponent
 	],
 	declarations: [
 		ProductListComponent,
 		ProductCategoryListComponent,
 		ProductCategoryEditDialogComponent,
 		ProductEditComponent,
-		ProductEditImageComponent
+		ProductEditImageComponent,
+		ProductBrandListComponent,
+		ProductBrandEditDialogComponent,
+		ProductModelListComponent,
+		ProductModelEditDialogComponent
 	],
 	providers: [
 		ProductService,

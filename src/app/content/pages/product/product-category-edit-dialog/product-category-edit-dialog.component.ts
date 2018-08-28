@@ -105,6 +105,7 @@ export class ProductCategoryEditDialogComponent implements OnInit {
 	} 
 
 	storeCategory(_category: ProductCategoryModel, _isEdit: boolean = false) {
+		this.viewLoading = true;
 		this.productService.storeProductCategory(_category).subscribe(res => {
 			this.viewLoading = false;
 			this.dialogRef.close({

@@ -10,6 +10,8 @@ import { QResultsModel } from '../../_balamir/models/q-models/q-results.model';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { ProductModel } from '../_models/product.model';
 import { ProductPhotosModel } from '../_models/product-photos.model';
+import { ProductBrandModel } from '../_models/product-brand.model';
+import { ProductModelModel } from '../_models/product-model.model';
 
 @Injectable()
 export class ProductService {
@@ -86,5 +88,27 @@ export class ProductService {
 	}
 
 	/** Marka Servisleri */
+
+	getProductBrands(): Observable<ProductBrandModel[]> {
+		return this._http.get<ProductBrandModel[]>(`${balamir.API_URL}/product/brands`);
+	}
+
+	getProductBrandById(brandId: number): Observable<ProductBrandModel> {
+		return this._http.get<ProductBrandModel>(`${balamir.API_URL}/product/brand/my/${brandId}`);
+	}
+
+	storeProductBrand(brand: ProductBrandModel): Observable<ProductBrandModel> {
+		return this._http.post<ProductBrandModel>(`${balamir.API_URL}/product/brand/store`, brand);
+	}
+
+	/** Model Servisleri */
+
+	getProductModelsByBrand(brandId: number): Observable<ProductModelModel[]> {
+		return this._http.get<ProductModelModel[]>(`${balamir.API_URL}/product/model/brand/${brandId}`);
+	}
+
+	storeProductModel(model: ProductModelModel): Observable<ProductModelModel> {
+		return this._http.post<ProductModelModel>(`${balamir.API_URL}/product/model/store`, model);
+	}
 
 }

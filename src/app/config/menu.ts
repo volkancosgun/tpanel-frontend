@@ -155,6 +155,11 @@ export class MenuConfig implements ConfigModel {
 								title: 'Kategoriler',
 								bullet: 'dot',
 								page: '/product/category/list',
+							},
+							{
+								title: 'Markalar',
+								bullet: 'dot',
+								page: '/product/brand/list'
 							}
 						]
 					},
