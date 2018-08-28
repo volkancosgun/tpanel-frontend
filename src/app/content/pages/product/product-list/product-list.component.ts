@@ -90,6 +90,7 @@ export class ProductListComponent implements OnInit {
 		filter.name = searchText;
 		filter.product_number = searchText;
 		filter.price = searchText;
+		filter.code = searchText;
 
 		return filter;
 	}

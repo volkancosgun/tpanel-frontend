@@ -36,15 +36,15 @@
 
                             <div class="m-form__group">
                                 <div class="row">
-                                    <!-- Ürün Numarası -->
-                                    <!-- <div class="col-md-4 m--margin-bottom-10-mobile">
+
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
-                                            <input matInput placeholder="Ürün Numarası" disabled value="Sistem tarafından otomatik oluşturulacaktır.">
+                                            <input matInput placeholder="Ürün Kodu" formControlName="code" autocomplete="off" required>
                                         </mat-form-field>
-                                    </div> -->
+                                    </div>
 
                                     <!-- Ürün Kategorisi -->
-                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Kategori" formControlName="category_id" required>
                                                 <!-- <mat-option>-</mat-option> -->
@@ -55,7 +55,7 @@
                                     </div>
 
                                     <!-- Marka -->
-                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Marka / Model" formControlName="brand_id">
                                                 <!-- <mat-option>-</mat-option> -->

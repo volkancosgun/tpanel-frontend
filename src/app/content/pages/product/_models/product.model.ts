@@ -1,6 +1,7 @@
 export class ProductModel {
 	id: number;
 	user_id: number;
+	code: string;
 	category_id: number;
 	brand_id: number;
 	product_number: string;
@@ -22,6 +23,7 @@ export class ProductModel {
 	exp: Date;
 
 	clear() {
+		this.code = null;
 		this.category_id = null;
 		this.brand_id = null;
 		this.product_number = null;
