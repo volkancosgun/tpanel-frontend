@@ -34,13 +34,20 @@
                         <div class="m-form__section m-form__section--first">
                             <div class="m-form__group">
                                 <div class="row">
-                                    <div class="col-md-12 m--margin-bottom-10-mobile">
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <div><span>Cinsiyet</span>: *</div>
                                         <mat-radio-group formControlName="gender">
                                             <mat-radio-button [value]="'male'">Erkek</mat-radio-button>
                                             <mat-radio-button [value]="'female'">Bayan</mat-radio-button>
                                         </mat-radio-group>
                                         <mat-error *ngIf="customerForm.controls.gender.invalid && customerForm.controls.gender.touched">Cinsiyet <strong>gerekli</strong></mat-error>
+                                    </div>
+
+                                    <div class="col-md-8 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Arama Adı" formControlName="_search" autocomplete="off">
+                                        </mat-form-field>
+
                                     </div>
                                 </div>
                             </div>

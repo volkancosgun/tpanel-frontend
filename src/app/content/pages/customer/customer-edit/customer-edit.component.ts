@@ -109,6 +109,7 @@ export class CustomerEditComponent implements OnInit {
 
 		this.customerForm = this.customerFB.group({
 			gender: [this.customer.gender.toString(), Validators.required],
+			_search: [this.customer._search],
 			group_id: [this.customer.group_id, Validators.required],
 			business_name: [this.customer.business_name],
 			business_manager: [this.customer.business_manager],
@@ -210,6 +211,7 @@ export class CustomerEditComponent implements OnInit {
 		const _customer = new CustomerModel();
 		_customer.id = this.customer.id;
 		_customer.gender = controls['gender'].value;
+		_customer._search = controls['_search'].value;
 		_customer.group_id = controls['group_id'].value;
 		_customer.business_name = controls['business_name'].value;
 		_customer.business_manager = controls['business_manager'].value;

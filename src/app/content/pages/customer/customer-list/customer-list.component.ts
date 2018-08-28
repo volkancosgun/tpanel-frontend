@@ -136,6 +136,7 @@ export class CustomerListComponent implements OnInit {
 		filter.sur_name = searchText;
 		filter.business_name = searchText;
 		filter.phone = searchText;
+		filter._search = searchText;
 
 		return filter;
 	}

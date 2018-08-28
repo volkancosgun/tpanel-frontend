@@ -4,6 +4,8 @@ import { CustomerLocationsModel } from "./customer-locations.model";
 export class CustomerModel extends BaseModel {
 	// Müşteri Cinsiyet
 	gender: string;
+	// Arama Adı
+	_search: string;
 	// Müşteri Id
 	id: number;
 	// Kullanıcı Id
@@ -58,6 +60,7 @@ export class CustomerModel extends BaseModel {
 	clear() {
 		// Modeli Sıfırla
 		this.gender = 'male';
+		this._search = '';
 		this.group_id = 1;
 		this.name = '';
 		this.sur_name = '';
