@@ -107,9 +107,8 @@ export class CustomerEditComponent implements OnInit {
 
 	createForm() {
 
-		//console.log(this.customer.group_id.toString());
-
 		this.customerForm = this.customerFB.group({
+			gender: [this.customer.gender.toString(), Validators.required],
 			group_id: [this.customer.group_id, Validators.required],
 			business_name: [this.customer.business_name],
 			business_manager: [this.customer.business_manager],
@@ -131,11 +130,11 @@ export class CustomerEditComponent implements OnInit {
 			status: [this.customer.status.toString()]
 		});
 
+		this.cdr.detectChanges();
+
 		this.customerService.getCustomerGroups().subscribe(res => {
 			this.groups = res;
 		});
-
-		this.cdr.detectChanges();
 
 	}
 
@@ -210,6 +209,7 @@ export class CustomerEditComponent implements OnInit {
 		const controls = this.customerForm.controls;
 		const _customer = new CustomerModel();
 		_customer.id = this.customer.id;
+		_customer.gender = controls['gender'].value;
 		_customer.group_id = controls['group_id'].value;
 		_customer.business_name = controls['business_name'].value;
 		_customer.business_manager = controls['business_manager'].value;

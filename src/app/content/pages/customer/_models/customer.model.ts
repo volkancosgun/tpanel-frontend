@@ -2,6 +2,8 @@ import { BaseModel } from "../../_balamir/models/_base.model";
 import { CustomerLocationsModel } from "./customer-locations.model";
 
 export class CustomerModel extends BaseModel {
+	// Müşteri Cinsiyet
+	gender: string;
 	// Müşteri Id
 	id: number;
 	// Kullanıcı Id
@@ -55,6 +57,7 @@ export class CustomerModel extends BaseModel {
 	
 	clear() {
 		// Modeli Sıfırla
+		this.gender = 'male';
 		this.group_id = 1;
 		this.name = '';
 		this.sur_name = '';
