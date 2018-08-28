@@ -14,10 +14,13 @@ export class ProductModel {
 	purchase_price: number;
 	carton_total: number;
 	carton_price: number;
+	carton_barcode: string;
 	palette_total: number;
 	palette_price: number;
+	palette_barcode: string;
 	container_total: number;
 	container_price: number;
+	container_barcode: string;
 	price: number;
 	status: number;
 	exp: Date;
@@ -37,10 +40,13 @@ export class ProductModel {
 		this.purchase_price = null;
 		this.carton_total = null;
 		this.carton_price = null;
+		this.carton_barcode = null;
 		this.palette_total = null;
 		this.palette_price = null;
+		this.palette_barcode = null;
 		this.container_total = null;
 		this.container_price = null;
+		this.container_barcode = null;
 		this.price = null;
 		this.status = 1;
 

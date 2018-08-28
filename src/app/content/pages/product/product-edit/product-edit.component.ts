@@ -121,10 +121,13 @@ export class ProductEditComponent implements OnInit {
 			deposit_fee: [this.product.deposit_fee],
 			carton_total: [this.product.carton_total],
 			carton_price: [this.product.carton_price],
+			carton_barcode: [this.product.carton_barcode],
 			palette_total: [this.product.palette_total],
 			palette_price: [this.product.palette_price],
+			palette_barcode: [this.product.palette_barcode],
 			container_total: [this.product.container_total],
 			container_price: [this.product.container_price],
+			container_barcode: [this.product.container_barcode],
 			price: [this.product.price, [Validators.required]],
 			status: [this.product.status, [Validators.required]]
 		});
@@ -169,10 +172,13 @@ export class ProductEditComponent implements OnInit {
 		_product.deposit_fee = controls['deposit_fee'].value;
 		_product.carton_total = controls['carton_total'].value;
 		_product.carton_price = controls['carton_price'].value;
+		_product.carton_barcode = controls['carton_barcode'].value;
 		_product.palette_total = controls['palette_total'].value;
 		_product.palette_price = controls['palette_price'].value;
+		_product.palette_barcode = controls['palette_barcode'].value;
 		_product.container_total = controls['container_total'].value;
 		_product.container_price = controls['container_price'].value;
+		_product.container_barcode = controls['container_barcode'].value;
 		_product.price = controls['price'].value;
 		_product.status = controls['status'].value;
 		return _product;

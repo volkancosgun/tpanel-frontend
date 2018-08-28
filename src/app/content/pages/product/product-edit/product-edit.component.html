@@ -154,15 +154,21 @@
                                             <span matSuffix>Kg.&nbsp;</span>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                    <div class="col-md-2 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput type="tel" currencyMask placeholder="Depozito ücreti" formControlName="deposit_fee" autocomplete="off">
                                             <span matPrefix>€&nbsp;</span>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-3 m--margin-bottom-10-mobile">
+                                    <div class="col-md-2 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
-                                            <input matInput type="tel" currencyMask placeholder="Fiyat" formControlName="price" autocomplete="off" required>
+                                            <input matInput type="tel" currencyMask placeholder="Alış Fiyatı" formControlName="purchase_price" autocomplete="off" required>
+                                            <span matPrefix>€&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="tel" currencyMask placeholder="Satış Fiyatı" formControlName="price" autocomplete="off" required>
                                             <mat-error>Fiyat <strong>gerekli</strong></mat-error>
                                             <span matPrefix>€&nbsp;</span>
                                         </mat-form-field>
@@ -187,6 +193,16 @@
                                         </mat-form-field>
                                     </div>
 
+                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="text" placeholder="Karton Barkod Numarası" formControlName="carton_barcode" autocomplete="off">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-form__group">
+                                <div class="row">
                                     <div class="col-md-3 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput type="number" placeholder="Palet ürün adeti" formControlName="palette_total" autocomplete="off" min="1">
@@ -201,6 +217,11 @@
                                         </mat-form-field>
                                     </div>
 
+                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="text" placeholder="Palet Barkod Numarası" formControlName="palette_barcode" autocomplete="off">
+                                        </mat-form-field>
+                                    </div>
                                 </div>
                             </div>
 
@@ -217,6 +238,12 @@
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput type="tel" currencyMask placeholder="Konteyner satış fiyatı" formControlName="container_price" autocomplete="off">
                                             <span matPrefix>€&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-6 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="text" placeholder="Konteyner Barkod Numarası" formControlName="container_barcode" autocomplete="off">
                                         </mat-form-field>
                                     </div>
                                 </div>
