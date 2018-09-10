@@ -59,6 +59,10 @@ export class CustomerService {
 		);
 	}
 
+	findLocationByCustomerId(customer_id: number): Observable<CustomerLocationsModel[]> {
+		return this.http.get<CustomerLocationsModel[]>(`${balamir.API_URL}/customer/location/my/${customer_id}`);
+	}
+
 	customerGetById(pid: number): Observable<CustomerModel> {
 		return this.http.get<CustomerModel>(`${balamir.API_URL}/customer/${pid}`);
 	}
@@ -113,8 +117,8 @@ export class CustomerService {
 		return this.http.post(`${balamir.API_URL}/customer/create`, data);
 	}
 
-	list() {
-		return this.http.get(`${balamir.API_URL}/customer/list`);
+	list(): Observable<CustomerModel[]> {
+		return this.http.get<CustomerModel[]>(`${balamir.API_URL}/customer/list`);
 	}
 
 	getById(pid) {

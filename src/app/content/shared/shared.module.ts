@@ -33,6 +33,7 @@ import {
 	MatTableModule,
 	MatSelectModule,
 	MatMenuModule,
+	MatGridListModule,
 	MatProgressBarModule,
 	MatButtonModule,
 	MatCheckboxModule,
@@ -48,6 +49,7 @@ import {
 	MatSnackBarModule,
 	MatTooltipModule
 } from '@angular/material';
+import { NgSelectModule, NG_SELECT_DEFAULT_CONFIG } from '@ng-select/ng-select';
 
 import { LayoutUtilsService } from '../pages/_balamir/utils/layout-utils.service';
 import { PartialsModule } from '../partials/partials.module';
@@ -74,10 +76,12 @@ import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
 		}),
 		TranslateModule.forChild(),
 		NgxCurrencyModule,
+		NgSelectModule,
 		// Material
 		MatDialogModule,
 		MatButtonModule,
 		MatMenuModule,
+		MatGridListModule,
 		MatSelectModule,
         MatInputModule,
 		MatTableModule,
@@ -121,10 +125,12 @@ import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
 		HttpClientModule,
 		TranslateModule,
 		NgxCurrencyModule,
+		NgSelectModule,
 		// Material
 		MatDialogModule,
 		MatButtonModule,
 		MatMenuModule,
+		MatGridListModule,
 		MatSelectModule,
         MatInputModule,
 		MatTableModule,
@@ -164,6 +170,12 @@ import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
 				width: '900px'
 			}
 		},
+		{
+            provide: NG_SELECT_DEFAULT_CONFIG,
+            useValue: {
+                notFoundText: 'Bulunamadı...'
+            }
+        },
 		LayoutUtilsService,
 		TypesUtilsService,
 		HttpUtilsService

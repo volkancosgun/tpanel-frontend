@@ -267,6 +267,14 @@ export const locale = {
 				},
 			}
 		},
+		ORDER: {
+			LIST: {
+				STATUS: {
+					1: 'Aktif',
+					9: 'Kullanım dışı'
+				}
+			}
+		},
 		ECOMMERCE: {
 			COMMON: {
 				SELECTED_RECORDS_COUNT: 'Selected records count: ',

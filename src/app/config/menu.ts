@@ -163,6 +163,18 @@ export class MenuConfig implements ConfigModel {
 							}
 						]
 					},
+					{
+						title: 'Sipariş Yönetimi',
+						root: true,
+						bullet: 'dot',
+						icon: 'flaticon-cart',
+						submenu: [
+							{
+								title: 'Siparişler',
+								page: '/order/list'
+							}
+						]
+					},
 
 					/* {
 						title: 'Ürün Yönetimi',

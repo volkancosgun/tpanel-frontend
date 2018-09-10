@@ -35,6 +35,10 @@ export class ProductService {
 		);
 	}
 
+	list(): Observable<ProductModel[]> {
+		return this._http.get<ProductModel[]>(`${balamir.API_URL}/product/list`);
+	}
+
 	getProductById(id:number): Observable<ProductModel> {
 		return this._http.get<ProductModel>(`${balamir.API_URL}/product/my/${id}`);
 	}

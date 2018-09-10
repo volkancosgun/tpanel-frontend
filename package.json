@@ -25,6 +25,7 @@
         "@angular/router": "^6.1.0",
         "@kolkov/angular-editor": "^0.10.3",
         "@ng-bootstrap/ng-bootstrap": "^2.2.0",
+        "@ng-select/ng-select": "^2.6.0",
         "@ngx-gallery/core": "^3.1.0",
         "@ngx-gallery/gallerize": "^3.1.0",
         "@ngx-gallery/lightbox": "^3.1.0",

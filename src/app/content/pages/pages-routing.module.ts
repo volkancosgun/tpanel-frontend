@@ -30,6 +30,11 @@ const routes: Routes = [
 				canActivate: [AuthGuard]
 			},
 			{
+				path: 'order',
+				loadChildren: './order/order.module#OrderModule',
+				canActivate: [AuthGuard]
+			},
+			{
 				path: 'builder',
 				loadChildren: './builder/builder.module#BuilderModule'
 			},

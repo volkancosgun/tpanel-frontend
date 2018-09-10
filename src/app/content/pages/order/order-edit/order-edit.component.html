@@ -1,0 +1,263 @@
+<div class="m-portlet">
+
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    {{ getTitle() }}
+                </h3>
+            </div>
+        </div>
+        <div class="m-portlet__head-tools">
+            <button type="button" (click)="onSubmit()" mat-raised-button matToolTip="Kaydet" color="primary">
+						<span>Sipariş Kaydet</span>
+					</button>
+        </div>
+    </div>
+
+    <form [formGroup]="orderForm" class="m-form m-form--label-align-left- m-form--state">
+
+        <div class="m-portlet__body">
+            <div class="m-portlet__body-progress">
+                <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <!-- 8 offset-xl-2 -->
+                    <div class="m-form__section m-form__section--first">
+                        <div class="m-form__heading">
+                            <h3 class="m-form__heading-title">Müşteri ve Fatura Bilgileri</h3>
+                        </div>
+                        <div class="m-form__group">
+                            <div class="row">
+
+                                <div class="col-md-6 m--margin-bottom-10-mobile">
+                                    <div class="mat-form-field-fluid">
+                                        <ng-select [items]="customers" [searchFn]="customerSearch" bindLabel="name" bindValue="id" [loading]="customerLoading" placeholder="Müşteri" formControlName="customer_id">
+                                            <ng-template ng-label-tmp let-item="item">
+                                                <div>{{item.customer_number}} - {{item.name}}</div>
+                                            </ng-template>
+                                            <ng-template ng-option-tmp let-item="item" let-index="index">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{item.customer_number}}</h5>
+                                                    <h6 class="card-subtitle mb-2 text-muted">{{item.name}} {{item.surname}} - {{item.business_name}}</h6>
+                                                </div>
+                                            </ng-template>
+
+                                        </ng-select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 m--margin-bottom-10-mobile">
+                                    <div class="mat-form-field-fluid">
+                                        <ng-select [items]="customerAdr" [searchFn]="customerAdrSearch" bindLabel="country" bindValue="id" [loading]="customerAdrLoading" placeholder="Adres Türü" formControlName="customer_location_id">
+                                            <ng-template ng-label-tmp let-item="item">
+                                                <div>
+                                                    {{getLangLocationType(item.location_type)}} - {{item.country}}
+                                                </div>
+                                            </ng-template>
+
+                                            <ng-template ng-option-tmp let-item="item" let-index="index">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">
+                                                        {{getLangLocationType(item.location_type)}}
+                                                    </h5>
+                                                    <h6 class="card-subtitle mb-2 text-muted">{{item.city}} / {{item.country}}</h6>
+                                                </div>
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 m--margin-bottom-10-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <textarea matInput placeholder="Fatura Adresi" formControlName="customer_location_address"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="m-form__heading">
+                            <h3 class="m-form__heading-title">Ürün ve Sipariş Bilgileri</h3>
+                        </div>
+
+                        <!-- TABLE -->
+
+                        <div class="m-form__group">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <strong>Ürün</strong>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <strong>Miktar</strong>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <strong>Birim</strong>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <strong>Fiyat</strong>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <strong>Kdv</strong>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <strong>Tutar</strong>
+                                </div>
+
+                                <div class="col-sm-1">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="m-form__group" formArrayName="orderItems" *ngFor="let item of orderForm.get('orderItems').controls; let i = index">
+                                <!-- Veriyi bul: {{ orderForm.controls.oItems.controls[i].controls.amount.value }} -->
+                                <div class="row" [formGroupName]="i">
+                                    <div class="col-sm-3">
+                                        <div class="mat-form-field-fluid">
+                                            <ng-select [items]="products" [searchFn]="productSearch" bindLabel="name" bindValue="id" formControlName="product_id" [loading]="productLoading">
+                                                <ng-template ng-label-tmp let-item="item">
+                                                    <div>
+                                                        {{item.name}}
+                                                    </div>
+                                                </ng-template>
+
+                                                <ng-template ng-option-tmp let-item="item" let-index="index">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">
+                                                            {{item.name}}
+                                                        </h5>
+                                                        <h6 class="card-subtitle mb-2 text-muted">{{item.price}}</h6>
+                                                    </div>
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput type="number" min="1" formControlName="amount" autocomplete="off">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="BR" formControlName="unit">
+                                                <mat-option value="DEFAULT">Adet</mat-option>
+                                                <mat-option value="CARTON" [disabled]="checkUnit(orderForm.controls.orderItems.controls[i].controls.product_id.value, 'CARTON')">Karton</mat-option>
+                                                <mat-option value="PALETTE" [disabled]="checkUnit(orderForm.controls.orderItems.controls[i].controls.product_id.value, 'PALETTE')">Palet</mat-option>
+                                                <mat-option value="CONTAINER" [disabled]="checkUnit(orderForm.controls.orderItems.controls[i].controls.product_id.value, 'CONTAINER')">Konteyner</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput currencyMask formControlName="price" autocomplete="off">
+                                            <span matPrefix>€&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput currencyMask formControlName="tax" autocomplete="off">
+                                            <span matPrefix>%&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput currencyMask formControlName="total_price" autocomplete="off">
+                                            <span matPrefix>€&nbsp;</span>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <button type="button" *ngIf="i >= 1" mat-icon-button color="warn" (click)="removeOrderItem(i)" matTooltip="Cancel changes">
+									<mat-icon>clear</mat-icon>
+								</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <a href="javascript:;" (click)="addOrderItem()">+ Ürün ekle</a>
+
+                        <!-- TABLE END -->
+                        <hr>
+                        <div class="m-widget4">
+                            <div class="m-widget4__item">
+                                <div class="m-widget4__info">
+                                    <span class="m-widget4__title">
+										Fiyat
+									</span>
+                                </div>
+
+                                <span class="m-widget4__ext">
+									{{orderTotalNetto | number:'1.1-2'}}&nbsp;
+								</span>
+
+                                <span class="m-widget4__ext">
+									EUR
+								</span>
+                            </div>
+                            <div class="m-widget4__item">
+                                <div class="m-widget4__info">
+                                    <span class="m-widget4__title">
+										Kdv
+									</span>
+                                </div>
+
+                                <span class="m-widget4__ext">
+									{{orderTotalTax | number:'1.1-2'}}&nbsp;
+								</span>
+
+                                <span class="m-widget4__ext">
+									EUR
+								</span>
+                            </div>
+                            <div class="m-widget4__item">
+                                <div class="m-widget4__info">
+                                    <span class="m-widget4__title">
+										Toplam Tutar
+									</span>
+                                </div>
+
+                                <span class="m-widget4__ext">
+									{{orderTotalPrice | number:'1.1-2'}}&nbsp;
+								</span>
+
+                                <span class="m-widget4__ext">
+									EUR
+								</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </form>
+
+
+
+</div>
+
+{{orderForm.value | json}}
