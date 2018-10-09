@@ -160,6 +160,11 @@ export class MenuConfig implements ConfigModel {
 								title: 'Markalar',
 								bullet: 'dot',
 								page: '/product/brand/list'
+							},
+							{
+								title: 'Vergiler',
+								bullet: 'dot',
+								page: '/product/taxes/list'
 							}
 						]
 					},
@@ -172,7 +177,11 @@ export class MenuConfig implements ConfigModel {
 							{
 								title: 'Siparişler',
 								page: '/order/list'
-							}
+							},
+							{
+								title: 'Sipariş Oluştur',
+								page: '/order/create'
+							},
 						]
 					},
 

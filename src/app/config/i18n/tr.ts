@@ -273,6 +273,10 @@ export const locale = {
 					1: 'Aktif',
 					9: 'Kullanım dışı'
 				}
+			},
+			EDIT: {
+				CREATE_MESSAGE: '{{name}} numaralı sipariş başarıyla oluşturuldu.',
+				UPDATE_MESSAGE: '{{name}} numaralı sipariş başarıyla düzenlendi.'
 			}
 		},
 		ECOMMERCE: {

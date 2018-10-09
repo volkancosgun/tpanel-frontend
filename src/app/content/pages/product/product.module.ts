@@ -26,6 +26,8 @@ import { ProductBrandListComponent } from './product-brand-list/product-brand-li
 import { ProductBrandEditDialogComponent } from './product-brand-edit-dialog/product-brand-edit-dialog.component';
 import { ProductModelListComponent } from './product-model-list/product-model-list.component';
 import { ProductModelEditDialogComponent } from './product-model-edit-dialog/product-model-edit-dialog.component';
+import { ProductTaxesComponent } from './product-taxes/product-taxes.component';
+import { ProductTaxesEditDialogComponent } from './product-taxes-edit-dialog/product-taxes-edit-dialog.component';
 
 const config: GalleryConfig = {
 	autoPlay: false,
@@ -49,7 +51,8 @@ const config: GalleryConfig = {
 	entryComponents: [
 		ProductCategoryEditDialogComponent,
 		ProductBrandEditDialogComponent,
-		ProductModelEditDialogComponent
+		ProductModelEditDialogComponent,
+		ProductTaxesEditDialogComponent
 	],
 	declarations: [
 		ProductListComponent,
@@ -60,7 +63,9 @@ const config: GalleryConfig = {
 		ProductBrandListComponent,
 		ProductBrandEditDialogComponent,
 		ProductModelListComponent,
-		ProductModelEditDialogComponent
+		ProductModelEditDialogComponent,
+		ProductTaxesComponent,
+		ProductTaxesEditDialogComponent
 	],
 	providers: [
 		ProductService,

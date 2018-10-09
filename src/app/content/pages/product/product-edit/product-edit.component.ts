@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnChanges } from '@angular/core';
 import { ProductModel } from '../_models/product.model';
 import { Observable, forkJoin } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -11,6 +11,9 @@ import { QParamsModel } from '../../_balamir/models/q-models/q-params.model';
 import { QResultsModel } from '../../_balamir/models/q-models/q-results.model';
 import { LayoutUtilsService, MessageType } from '../../_balamir/utils/layout-utils.service';
 import { TypesUtilsService } from '../../_balamir/utils/types-utils.service';
+import { ProductBrandModel } from '../_models/product-brand.model';
+import { ProductModelModel } from '../_models/product-model.model';
+import { ProductTaxModel } from '../_models/product-tax.model';
 
 @Component({
 	selector: 'm-product-edit',
@@ -29,6 +32,10 @@ export class ProductEditComponent implements OnInit {
 	categories: ProductCategoryModel[];
 	qParams: QParamsModel;
 	qResults: QResultsModel;
+
+	brands: ProductBrandModel[];
+	models: ProductModelModel[];
+	taxes: ProductTaxModel[];
 
 	constructor(
 		private translate: TranslateService,
@@ -51,9 +58,11 @@ export class ProductEditComponent implements OnInit {
 			if (id && id > 0) {
 				this.productService.getProductById(id).subscribe(res => {
 					this.product = res;
+				
 
 					this.oldProduct = Object.assign({}, res);
 					this.initProduct();
+					this.loadModels(res.brand_id);
 
 				});
 			} else {
@@ -66,6 +75,12 @@ export class ProductEditComponent implements OnInit {
 			}
 
 		});
+	}
+
+	onChanges() {
+		this.dataForm.get('brand_id').valueChanges.subscribe(value => {
+			this.loadModels(value);
+		});	
 	}
 
 	getTitle(): string {
@@ -93,7 +108,10 @@ export class ProductEditComponent implements OnInit {
 
 	initProduct() {
 		this.loadCats();
+		this.loadBrands();
+		this.loadTaxes();
 		this.createForm();
+		this.onChanges();
 
 	}
 
@@ -106,13 +124,41 @@ export class ProductEditComponent implements OnInit {
 		});
 	}
 
+	loadBrands() {
+		this.productService.getProductBrands().subscribe(data => {
+			this.brands = data;
+			this.loadingSubject.next(false);
+			this.cdr.detectChanges();
+		});
+	}
+
+	loadTaxes() {
+		this.productService.getProductTaxes().subscribe(data => {
+			this.taxes = data;
+			this.loadingSubject.next(false);
+			this.cdr.detectChanges();
+		});
+	}
+
+	loadModels(brandId: number) {
+		this.loadingSubject.next(true);
+		this.productService.getProductModelsByBrand(brandId).subscribe(data => {
+			this.models = data;
+			this.loadingSubject.next(false);
+			this.cdr.detectChanges();
+		});
+	}
+
 	createForm() {
 
 		this.dataForm = this.fb.group({
 			code: [this.product.code, [Validators.required]],
 			category_id: [this.product.category_id, [Validators.required]],
 			brand_id: [this.product.brand_id],
+			model_id: [this.product.model_id],
+			tax_id: [this.product.tax_id],
 			name: [this.product.name, [Validators.required]],
+			_search: [this.product._search],
 			description: [this.product.description],
 			exp: [this.product.expiration_at, [Validators.nullValidator]],
 			n_weight: [this.product.n_weight],
@@ -163,7 +209,10 @@ export class ProductEditComponent implements OnInit {
 		_product.code = controls['code'].value;
 		_product.category_id = controls['category_id'].value;
 		_product.brand_id = controls['brand_id'].value;
+		_product.model_id = controls['model_id'].value;
+		_product.tax_id = controls['tax_id'].value;
 		_product.name = controls['name'].value;
+		_product._search = controls['_search'].value;
 		_product.description = controls['description'].value;
 		_product.expiration_at = controls['exp'].value;
 		_product.n_weight = controls['n_weight'].value;
@@ -232,8 +281,6 @@ export class ProductEditComponent implements OnInit {
 		if (this.product.id || id) {
 			_backUrl += '?id=' + this.product.id + '&balamir=' + isEdit;
 		}
-
-		//_backUrl += '?id=' + id + '&balamir=' + isEdit;
 
 		this.router.navigateByUrl(_backUrl);
 	}

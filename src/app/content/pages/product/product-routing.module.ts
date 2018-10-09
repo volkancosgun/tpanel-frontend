@@ -6,6 +6,7 @@ import { AuthGuard } from '../auth/_guards/auth.guard';
 import { ProductEditComponent } from './product-edit/product-edit.component';
 import { ProductBrandListComponent } from './product-brand-list/product-brand-list.component';
 import { ProductModelListComponent } from './product-model-list/product-model-list.component';
+import { ProductTaxesComponent } from './product-taxes/product-taxes.component';
 
 const routes: Routes = [
 	{
@@ -39,6 +40,11 @@ const routes: Routes = [
 	{
 		path: 'model',
 		component: ProductModelListComponent,
+		canActivate: [AuthGuard]
+	},
+	{
+		path: 'taxes/list',
+		component: ProductTaxesComponent,
 		canActivate: [AuthGuard]
 	}
 ];

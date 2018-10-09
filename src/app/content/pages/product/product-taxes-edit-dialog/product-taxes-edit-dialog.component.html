@@ -1,0 +1,72 @@
+<div class="m-portlet" [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <span class="m-portlet__head-icon m--hide">
+								<i class="la la-gear"></i>
+							</span>
+                <h3 class="m-portlet__head-text">{{ getTitle() }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-form" [formGroup]="taxForm">
+        <div class="m-portlet__body">
+
+            <div class="m-portlet__body-progress">
+                <mat-spinner [diameter]="30"></mat-spinner>
+            </div>
+
+            <m-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                <span translate="FORM.REQUIRED.ERROR">Lütfen gerekli alanları doldurunuz.</span>
+            </m-alert>
+
+            <div class="form-group m-form__group row">
+                <div class="col-md-6 m--margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput placeholder="Vergi adı" formControlName="name" autocomplete="off" required />
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6 m--margin-bottom-20-mobile">
+                </div>
+
+                <div class="col-md-2 m--margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput currencyMask placeholder="Vergi Oranı" formControlName="tax" autocomplete="off" required />
+                        <span matPrefix>%&nbsp;</span>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-10 m--margin-bottom-20-mobile">
+                </div>
+
+                <div class="col-md-12 m--margin-bottom-20-mobile">
+                    <div>Durum:</div>
+                    <mat-radio-group formControlName="status">
+                        <mat-radio-button class="example-radio-button" [value]="1">Aktif</mat-radio-button>
+                        <mat-radio-button class="example-radio-button" [value]="9">Devre dışı</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+            <div class="m-form__actions m-form__actions--solid">
+                <div class="row text-right">
+                    <div class="col-lg-12">
+                        <button type="button" mat-raised-button cdkFocusInitial (click)="onCancel()" matTooltip="Değişiklikleri iptal et">
+										<span translate="BUTTON.CANCEL">İptal et</span>
+									</button> &nbsp;
+                        <button type="button" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Değişiklikleri kaydet">
+										<span translate="BUTTON.SAVE">Kaydet</span>
+									</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

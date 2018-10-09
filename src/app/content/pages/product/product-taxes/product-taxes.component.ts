@@ -1,77 +1,71 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { ProductBrandModel } from '../_models/product-brand.model';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ProductTaxModel } from '../_models/product-tax.model';
 import { ProductService } from '../_services/product.service';
-import { ProductBrandEditDialogComponent } from '../product-brand-edit-dialog/product-brand-edit-dialog.component';
 import { MatDialog } from '@angular/material';
-import { balamir } from '../../../../../environments/balamir';
+import { ProductTaxesEditDialogComponent } from '../product-taxes-edit-dialog/product-taxes-edit-dialog.component';
 import { LayoutUtilsService, MessageType } from '../../_balamir/utils/layout-utils.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 
 @Component({
-	selector: 'm-product-brand-list',
-	templateUrl: './product-brand-list.component.html',
+	selector: 'm-product-taxes',
+	templateUrl: './product-taxes.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductBrandListComponent implements OnInit {
+export class ProductTaxesComponent implements OnInit {
 
-	brands: ProductBrandModel[];
+	taxes: ProductTaxModel[];
+
 	viewLoading: boolean = true;
 	loadingAfterSubmit: boolean = false;
-	viewLock: boolean = false;
-	uploadUrl = `${balamir.APP_DOMAIN}`;
 	constructor(
 		private productService: ProductService,
 		private dialog: MatDialog,
-		private cdr: ChangeDetectorRef,
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
-		private router: Router
+		private cdr: ChangeDetectorRef
 	) { }
 
 	ngOnInit() {
 
-		this.loadBrands();
-
+		this.loadTaxes();
 	}
 
-	loadBrands() {
+	loadTaxes() {
 		this.viewLoading = true;
-		this.productService.getProductBrands().subscribe((data: ProductBrandModel[]) => {
-			this.brands = data;
+		this.productService.getProductTaxes().subscribe((data: ProductTaxModel[]) => {
+			this.taxes = data;
 			this.viewLoading = false;
 			this.cdr.detectChanges();
 		});
 	}
 
-	createBrand() {
-		const newProductBrand = new ProductBrandModel();
-		newProductBrand.clear();
-		this.editBrand(newProductBrand);
+	createTax() {
+		const newProductTax = new ProductTaxModel();
+		newProductTax.clear();
 
+		this.editTax(newProductTax);
 	}
 
-	editBrand(brand: ProductBrandModel) {
-		const dialogRef = this.dialog.open(ProductBrandEditDialogComponent, { data: { brand } });
+	editTax(tax: ProductTaxModel) {
+		const dialogRef = this.dialog.open(ProductTaxesEditDialogComponent, { data: { tax } });
 		dialogRef.afterClosed().subscribe(res => {
+
 			if (!res) {
 				return;
 			}
 
-
-
-			this.loadBrands();
 			this.storeActionNotification(res);
+			this.loadTaxes();
 			this.cdr.detectChanges();
+
 		});
 	}
 
-	deleteBrand(brand: ProductBrandModel) {
-		let _brand = brand;
-		_brand.status = -1;
-		_brand.logo = null;
+	deleteTax(tax: ProductTaxModel) {
+		let _model = tax;
+		_model.status = -1;
 
-		const itemName = `<strong>${_brand.name}</strong>`;
+		const itemName = `<strong>${_model.name}</strong>`;
 		const _title: string = this.translate.instant('BALAMIR.DIALOG.DELETE.TITLE');
 		const _desc: string = this.translate.instant('BALAMIR.DIALOG.DELETE.DESC_ITEM', { name: itemName });
 		const _waitDesc: string = this.translate.instant('BALAMIR.DIALOG.LOADING.DELETE_ITEM', { name: itemName });
@@ -83,9 +77,9 @@ export class ProductBrandListComponent implements OnInit {
 				return;
 			}
 
-			this.productService.storeProductBrand(_brand).subscribe(res => {
+			this.productService.storeProductTax(_model).subscribe(res => {
 				this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-				this.loadBrands();
+				this.loadTaxes();
 				this.cdr.detectChanges();
 			});
 
@@ -93,17 +87,11 @@ export class ProductBrandListComponent implements OnInit {
 		});
 	}
 
-	goModelPage(brand: ProductBrandModel) {
-
-		this.router.navigate(['product/model'], { queryParams: { brand: brand.id } });
-
-	}
-
 	storeActionNotification(res) {
-		let _brand = res._brand;
-		let _saveMessage = `<strong>${_brand.name}</strong> adlı marka başarıyla `;
+		let _tax = res._tax;
+		let _saveMessage = `<strong>${_tax.name}</strong> adlı vergi oranı <strong>% ${_tax.tax}</strong> olarak `;
 		_saveMessage += res._isEdit ? 'düzenlendi' : 'eklendi';
-		const _messageType = _brand.id > 0 ? MessageType.Update : MessageType.Create;
+		const _messageType = _tax.id > 0 ? MessageType.Update : MessageType.Create;
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType, 5000, true, false);
 	}
 

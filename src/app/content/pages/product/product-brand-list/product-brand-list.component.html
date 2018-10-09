@@ -25,7 +25,7 @@
         </div>
 
 
-        <m-notice *ngIf="!brands?.length > 0" [icon]="'flaticon-exclamation m--font-primary'">
+        <m-notice *ngIf="!(brands?.length > 0)" [icon]="'flaticon-exclamation m--font-primary'">
             Henüz marka oluşturmadınız. <br>Yeni bir marka oluşturmak için, <strong>Marka Ekle</strong> butonuna tıklayınız.
         </m-notice>
 
@@ -54,10 +54,13 @@
             </div>
         </div>
 
-        <m-notice *ngIf="brands?.length > 0" [icon]="'flaticon-exclamation m--font-primary'">
-            Kayıtlı toplam <strong>{{brands?.length}}</strong> marka bulunuyor.
-        </m-notice>
+
 
     </div>
 
+
 </div>
+
+<m-notice *ngIf="brands?.length > 0" [icon]="'flaticon-exclamation m--font-primary'">
+    Kayıtlı toplam <strong>{{brands?.length}}</strong> marka bulunuyor.
+</m-notice>

@@ -1,0 +1,53 @@
+<div class="m-portlet" [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <span class="m-portlet__head-icon m--hide">
+								<i class="la la-gear"></i>
+							</span>
+                <h3 class="m-portlet__head-text">Vergi Oranları</h3>
+            </div>
+        </div>
+
+        <div class="m-portlet__head-tools">
+            <button type="button" (click)="createTax()" mat-raised-button matToolTip="Vergi Ekle" color="primary">
+							<span>Vergi Ekle</span>
+						</button>
+        </div>
+
+    </div>
+
+    <div class="m-portlet__body">
+        <div class="m-portlet__body-progress">
+            <mat-spinner [diameter]="30"></mat-spinner>
+        </div>
+
+        <m-notice *ngIf="!(taxes?.length > 0)" [icon]="'flaticon-exclamation m--font-primary'">
+            Henüz vergi oranı oluşturmadınız. <br>Yeni bir vergi oranı oluşturmak için, <strong>Vergi Ekle</strong> butonuna tıklayınız.
+        </m-notice>
+
+        <div class="m-widget4">
+            <div class="m-widget4__item" *ngFor="let tax of taxes">
+                <div class="m-widget4__info">
+                    <span class="m-widget4__title">
+							<a href="javascript:;" (click)="editTax(tax)">{{tax.name}}</a>
+                    </span>
+                    <br>
+                    <span class="m-widget4__sub">% {{tax.tax}}</span>
+                </div>
+
+                <span class="m-widget4__ext">
+						<button type="button" mat-icon-button color="primary" (click)="editTax(tax)" matTooltip="Düzenle"><mat-icon>create</mat-icon></button>
+					</span>
+                <span class="m-widget4__ext">
+						<button mat-icon-button color="warn" type="button" (click)="deleteTax(tax)" matTooltip="Sil"><mat-icon>delete</mat-icon></button>
+					</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<m-notice *ngIf="(taxes?.length > 0)" [icon]="'flaticon-exclamation m--font-primary'">
+    Kayıtlı toplam <strong>{{taxes?.length}}</strong> vergi oranı bulunuyor.
+</m-notice>

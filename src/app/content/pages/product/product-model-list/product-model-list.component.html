@@ -26,7 +26,7 @@
             <mat-spinner [diameter]="30"></mat-spinner>
         </div>
 
-        <m-notice *ngIf="!models?.length > 0" [icon]="'flaticon-exclamation m--font-primary'">
+        <m-notice *ngIf="!(models?.length > 0)" [icon]="'flaticon-exclamation m--font-primary'">
             <strong>{{brand?.name}}</strong> için henüz model oluşturmadınız. <br>Yeni bir model oluşturmak için, <strong>Model Ekle</strong> butonuna tıklayınız.
         </m-notice>
 
@@ -45,14 +45,12 @@
 						</span>
             </div>
         </div>
-
-        <m-notice *ngIf="models?.length > 0" [icon]="'flaticon-exclamation m--font-primary'">
-            <strong>{{brand?.name}}</strong> için Kayıtlı toplam <strong>{{models?.length}}</strong> model bulunuyor.
-        </m-notice>
-
     </div>
-
 </div>
+
+<m-notice *ngIf="models?.length > 0" [icon]="'flaticon-exclamation m--font-primary'">
+    <strong>{{brand?.name}}</strong> için Kayıtlı toplam <strong>{{models?.length}}</strong> model bulunuyor.
+</m-notice>
 
 <!-- 
 

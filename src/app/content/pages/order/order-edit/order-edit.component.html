@@ -1,5 +1,4 @@
-<div class="m-portlet">
-
+<div class="m-portlet" [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
     <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
@@ -9,18 +8,25 @@
             </div>
         </div>
         <div class="m-portlet__head-tools">
-            <button type="button" (click)="onSubmit()" mat-raised-button matToolTip="Kaydet" color="primary">
-						<span>Sipariş Kaydet</span>
+            <button type="button" (click)="pageBack()" mat-raised-button matTooltip="{{'BUTTON.INFO.BACK' | translate}}"><span translate="BUTTON.BACK">Geri</span></button>
+            <!-- <button type="button" (click)="reset()" mat-raised-button matTooltip="{{'BUTTON.INFO.RESET_CHANGES' | translate}}"><span translate="BUTTON.RESET">Sıfırla</span></button> -->
+
+            <button type="button" (click)="onSubmit(true)" mat-raised-button matToolTip="Kaydet" color="primary">
+						<span>Kaydet</span>
 					</button>
         </div>
     </div>
 
-    <form [formGroup]="orderForm" class="m-form m-form--label-align-left- m-form--state">
+    <form *ngIf="afterLoading" [formGroup]="orderForm" class="m-form m-form--label-align-left- m-form--state">
 
         <div class="m-portlet__body">
             <div class="m-portlet__body-progress">
                 <mat-spinner [diameter]="20"></mat-spinner>
             </div>
+
+            <m-alert *ngIf="orderFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                <span translate="FORM.REQUIRED.ERROR">Lütfen gerekli alanları doldurunuz.</span>
+            </m-alert>
 
             <div class="row">
                 <div class="col-xl-12">
@@ -76,7 +82,7 @@
                             <div class="row">
                                 <div class="col-md-12 m--margin-bottom-10-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <textarea matInput placeholder="Fatura Adresi" formControlName="customer_location_address"></textarea>
+                                        <textarea matInput placeholder="Fatura Adresi" formControlName="bill_address"></textarea>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -121,8 +127,8 @@
                             </div>
                         </div>
 
-                        <div>
-                            <div class="m-form__group" formArrayName="orderItems" *ngFor="let item of orderForm.get('orderItems').controls; let i = index">
+                        <div *ngIf="!viewLoading">
+                            <div class="m-form__group" formArrayName="orderItems" *ngFor="let item of orderItemsData.controls; let i = index">
                                 <!-- Veriyi bul: {{ orderForm.controls.oItems.controls[i].controls.amount.value }} -->
                                 <div class="row" [formGroupName]="i">
                                     <div class="col-sm-3">
@@ -260,4 +266,4 @@
 
 </div>
 
-{{orderForm.value | json}}
+<!-- {{orderForm.value | json}} -->

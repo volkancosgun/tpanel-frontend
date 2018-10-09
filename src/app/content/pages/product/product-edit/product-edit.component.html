@@ -44,6 +44,27 @@
                                         </mat-form-field>
                                     </div>
 
+                                    <!-- Ürün Adı -->
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Ürün Adı" formControlName="name" required autocomplete="off">
+                                            <mat-error>Ürün Adı <strong>gerekli</strong></mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- Arama Adı -->
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Arama Adı" formControlName="_search" autocomplete="off">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="m-form__group">
+                                <div class="row">
+
                                     <!-- Ürün Kategorisi -->
                                     <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
@@ -58,7 +79,18 @@
                                     <!-- Marka -->
                                     <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
-                                            <mat-select placeholder="Marka / Model" formControlName="brand_id">
+                                            <mat-select placeholder="Marka" formControlName="brand_id">
+                                                <mat-option *ngFor="let item of brands;" [value]="item.id">{{item.name}}</mat-option>
+                                                <!-- <mat-option>-</mat-option> -->
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- Model -->
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="Model" formControlName="model_id">
+                                                <mat-option *ngFor="let item of models;" [value]="item.id">{{item.name}}</mat-option>
                                                 <!-- <mat-option>-</mat-option> -->
                                             </mat-select>
                                         </mat-form-field>
@@ -94,6 +126,7 @@
                                         </mat-form-field>
                                     </div>
 
+                                    <!-- Son Kullanma Tarihi -->
                                     <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput [matDatepicker]="picker" placeholder="Son Kullanma Tarihi" formControlName="exp" autocomplete="off" />
@@ -107,11 +140,13 @@
 
                             <div class="m-form__group">
                                 <div class="row">
-                                    <!-- Ürün Adı -->
-                                    <div class="col-md-12 m--margin-bottom-10-mobile">
+                                    <!-- Ürün Vergi -->
+                                    <div class="col-md-4 m--margin-bottom-10-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
-                                            <input matInput placeholder="Ürün Adı" formControlName="name" required autocomplete="off">
-                                            <mat-error>Ürün Adı <strong>gerekli</strong></mat-error>
+                                            <mat-select placeholder="Vergi Oranı" formControlName="tax_id" required>
+                                                <mat-option *ngFor="let tax of taxes;" [value]="tax.id">%{{tax.tax}} - {{tax.name}}</mat-option>
+                                            </mat-select>
+                                            <mat-error>Vergi oranı <strong>gerekli</strong></mat-error>
                                         </mat-form-field>
                                     </div>
                                 </div>

@@ -24,6 +24,10 @@ export class OrderService {
 		);
 	}
 
+	getOrderById(order_id: number): Observable<OrderModel> {
+		return this._http.get<OrderModel>(`${balamir.API_URL}/order/my/${order_id}`);
+	}
+
 	storeOrder(order: OrderModel): Observable<OrderModel> {
 		return this._http.post<OrderModel>(`${balamir.API_URL}/order/store`, order);
 	}

@@ -4,8 +4,11 @@ export class ProductModel {
 	code: string;
 	category_id: number;
 	brand_id: number;
+	model_id: number;
+	tax_id: number;
 	product_number: string;
 	name: string;
+	_search: string;
 	description: string;
 	expiration_at: Date;
 	n_weight: number;
@@ -29,8 +32,11 @@ export class ProductModel {
 		this.code = null;
 		this.category_id = null;
 		this.brand_id = null;
+		this.model_id = null;
+		this.tax_id = null;
 		this.product_number = null;
 		this.name = null;
+		this._search = null;
 		this.description = null;
 		this.exp = new Date();
 		this.expiration_at = new Date();

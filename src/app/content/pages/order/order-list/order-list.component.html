@@ -103,6 +103,34 @@
                     </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="business_name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Firma </mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        {{item.business_name}}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Fiyat </mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        {{item.price}}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="tax_price">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> KDV </mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        {{item.tax_price}}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="total_price">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Toplam Fiyat </mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        {{item.total_price}}
+                    </mat-cell>
+                </ng-container>
+
                 <!-- Durum -->
                 <ng-container matColumnDef="status">
                     <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-status"> Durum </mat-header-cell>

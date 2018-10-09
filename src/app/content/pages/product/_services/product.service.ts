@@ -12,6 +12,7 @@ import { ProductModel } from '../_models/product.model';
 import { ProductPhotosModel } from '../_models/product-photos.model';
 import { ProductBrandModel } from '../_models/product-brand.model';
 import { ProductModelModel } from '../_models/product-model.model';
+import { ProductTaxModel } from '../_models/product-tax.model';
 
 @Injectable()
 export class ProductService {
@@ -113,6 +114,16 @@ export class ProductService {
 
 	storeProductModel(model: ProductModelModel): Observable<ProductModelModel> {
 		return this._http.post<ProductModelModel>(`${balamir.API_URL}/product/model/store`, model);
+	}
+
+	/** Vergi Servisleri */
+
+	getProductTaxes(): Observable<ProductTaxModel[]> {
+		return this._http.get<ProductTaxModel[]>(`${balamir.API_URL}/product/taxes`);
+	}
+
+	storeProductTax(tax: ProductTaxModel): Observable<ProductTaxModel> {
+		return this._http.post<ProductTaxModel>(`${balamir.API_URL}/product/tax/store`, tax);
 	}
 
 }

@@ -21,7 +21,7 @@ export class OrderListComponent implements OnInit {
 
 	dataSource: OrderDataSource;
 	dataResult: OrderModel[] = [];
-	displayedColumns = ['select', 'order_number', 'status'];
+	displayedColumns = ['select', 'order_number', 'business_name', 'price', 'tax_price', 'total_price', 'status'];
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
@@ -89,6 +89,7 @@ export class OrderListComponent implements OnInit {
 
 		filter.name = searchText;
 		filter.order_number = searchText;
+		filter.business_name = searchText;
 
 		return filter;
 	}

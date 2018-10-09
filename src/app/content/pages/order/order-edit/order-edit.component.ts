@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CustomerModel } from '../../customer/_models/customer.model';
 import { CustomerService } from '../../customer/_services/customer.service';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
@@ -11,14 +11,19 @@ import { ProductService } from '../../product/_services/product.service';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
 import { OrderService } from '../_services/order.service';
+import { BehaviorSubject } from 'rxjs';
+import { LayoutUtilsService, MessageType } from '../../_balamir/utils/layout-utils.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ProductTaxModel } from '../../product/_models/product-tax.model';
 
 @Component({
 	selector: 'm-order-edit',
 	templateUrl: './order-edit.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderEditComponent implements OnInit {
+export class OrderEditComponent implements OnInit, AfterViewInit {
 	order: OrderModel;
+	oldOrder: OrderModel;
 	orderItems: FormArray;
 	orderForm: FormGroup;
 	orderFormErrors: boolean = false;
@@ -34,9 +39,14 @@ export class OrderEditComponent implements OnInit {
 	customerAdrValue: CustomerLocationsModel = new CustomerLocationsModel();
 
 	products: ProductModel[] = [];
+	taxes: ProductTaxModel[] = [];
 	productLoading: boolean = false;
 
 	Math: any;
+
+	viewLoading: boolean = false;
+
+	afterLoading: boolean = false;
 
 	constructor(
 		private customerService: CustomerService,
@@ -44,20 +54,67 @@ export class OrderEditComponent implements OnInit {
 		private productService: ProductService,
 		private fb: FormBuilder,
 		private translate: TranslateService,
+		private layoutUtilsService: LayoutUtilsService,
+		private router: Router,
+		private route: ActivatedRoute,
 		private cdr: ChangeDetectorRef
 	) {
 		this.Math = Math;
+
+
+	}
+
+	get orderItemsData() { return <FormArray>this.orderForm.get('orderItems'); }
+
+	ngAfterViewInit() {
+		this.afterLoading = true;
 	}
 
 	ngOnInit() {
-		this.order = new OrderModel();
-		this.order.clear();
-		this.formCreate();
+		this.viewLoading = true;
+		this.route.queryParams.subscribe(params => {
+			const order_id = +params.id;
+
+			if (order_id && order_id > 0) {
+
+				this.orderService.getOrderById(order_id).subscribe((res: OrderModel) => {
+					this.order = res;
+					this.oldOrder = Object.assign({}, res);
+
+					this.initOrder();
+					
+					this.loadOrderItems();
+					this.removeOrderItem(0);
+
+					
+					this.orderForm.get('customer_id').setValue(res.customer_id, { emitEvent: true });
+
+					
+
+
+				});
+
+			} else {
+				const newOrder = new OrderModel();
+				newOrder.clear();
+
+				this.order = newOrder;
+				this.oldOrder = Object.assign({}, newOrder);
+				this.initOrder();
+			}
+
+		});
+
+	}
+
+	initOrder() {
+
 		this.loadCustomer();
 		this.loadProducts();
-		this.loadOrderItems();
-
+		this.loadTaxes();
+		this.formCreate();
 		this.onChanges();
+
 	}
 
 	onChanges(): void {
@@ -94,6 +151,11 @@ export class OrderEditComponent implements OnInit {
 				let inputPrice = x.get('price').value;
 
 				let productPrice = this.products.find(x => x.id == productId).price;
+				let taxId = this.products.find(x => x.id == productId).tax_id;
+				let taxValue = this.taxes.find(x => x.id == taxId).tax;
+
+				x.get('tax').setValue(taxValue, { emitEvent: false });
+
 				switch (unit) {
 					case 'CARTON':
 						productPrice = this.products.find(x => x.id == productId).carton_price;
@@ -108,8 +170,6 @@ export class OrderEditComponent implements OnInit {
 						productPrice = this.products.find(x => x.id == productId).price;
 						break;
 				}
-
-				//x.get('unit').disable({onlySelf: true});
 
 				if (!inputPrice || productPrice != inputPrice) {
 					x.get('price').setValue(+productPrice, { emitEvent: false });
@@ -180,21 +240,23 @@ export class OrderEditComponent implements OnInit {
 
 		x.get('total_price').setValue(totalResult, { emitEvent: false });
 
-		//this.cdr.detectChanges();
+		this.cdr.detectChanges();
 
 	}
 
 	onAdrChange(location_id) {
 		let _location = this.customerAdr.find((item: CustomerLocationsModel) => item.id === location_id);
 		this.customerAdrValue = _location;
-		this.orderForm.patchValue({ customer_location_address: this.customerAdrValue.address });
+		this.orderForm.patchValue({ bill_address: this.customerAdrValue.address });
 	}
 
 	loadCustomer() {
+		this.viewLoading = true;
 		this.customerLoading = true;
 		this.customerService.list().subscribe(data => {
 			this.customers = data;
 			this.customerLoading = false;
+			this.viewLoading = false;
 			this.cdr.detectChanges();
 		});
 	}
@@ -209,9 +271,15 @@ export class OrderEditComponent implements OnInit {
 		})
 	}
 
+	loadTaxes() {
+		this.productService.getProductTaxes().subscribe(data => {
+			this.taxes = data;
+		});
+	}
+
 	loadOrderItems() {
 		this.orderItems = this.orderForm.get('orderItems') as FormArray;
-		this.orderService.getOrderItems(1).subscribe((data: OrderItemModel[]) => {
+		this.orderService.getOrderItems(this.order.id).subscribe((data: OrderItemModel[]) => {
 			data.forEach(item => {
 				this.orderItems.push(this.initOrderItem(item));
 			});
@@ -232,16 +300,29 @@ export class OrderEditComponent implements OnInit {
 	}
 
 	loadLocations(customer_id: number) {
-		this.orderForm.patchValue({ customer_location_id: null, customer_location_address: null });
+
+		if (!this.order.id) {
+
+			this.orderForm.patchValue({ customer_location_id: null, bill_address: null });
+		}
+
 		this.customerAdrLoading = true;
+		this.viewLoading = true;
 		this.customerService.findLocationByCustomerId(customer_id).subscribe((data: CustomerLocationsModel[]) => {
+			
+			if (!data.length) {
+				this.orderForm.patchValue({ customer_location_id: null, bill_address: null });
+			}
+
 			this.customerAdr = data;
 			this.customerAdrLoading = false;
+			this.viewLoading = false;
 			this.cdr.detectChanges();
 		});
 	}
 
 	getLangLocationType(location_type): string {
+
 		return this.translate.instant(`CUSTOMER.LOCATION.TYPES.${location_type}`);
 	}
 
@@ -255,6 +336,10 @@ export class OrderEditComponent implements OnInit {
 		return item.customer_number.toLocaleLowerCase().indexOf(term) > -1 || item.name.toLocaleLowerCase().indexOf(term) > -1 || item._search.toLocaleLowerCase().indexOf(term) > -1;
 	}
 
+	customerAdrSearch() {
+		return;
+	}
+
 	productSearch(term: string, item: ProductModel) {
 		term = term.toLocaleLowerCase();
 		item.name = item.name || '';
@@ -263,10 +348,11 @@ export class OrderEditComponent implements OnInit {
 	}
 
 	formCreate() {
+
 		this.orderForm = this.fb.group({
-			customer_id: [this.order.customer_id, Validators.required],
-			customer_location_id: [null],
-			customer_location_address: [null],
+			customer_id: [this.order.customer_id, [Validators.required]],
+			customer_location_id: [this.order.location_id, [Validators.required]],
+			bill_address: [this.order.bill_address, [Validators.required]],
 			orderItems: this.fb.array([this.createOrderItem()])
 		});
 	}
@@ -295,25 +381,30 @@ export class OrderEditComponent implements OnInit {
 		const controls = this.orderForm.controls;
 		const _order = new OrderModel();
 
+		_order.id = this.order.id;
 		_order.customer_id = controls['customer_id'].value;
+		_order.location_id = controls['customer_location_id'].value;
+		_order.bill_address = controls['bill_address'].value;
+		_order.price = this.orderTotalNetto;
+		_order.tax_price = this.orderTotalTax;
+		_order.total_price = this.orderTotalPrice;
 		_order.items = controls['orderItems'].value;
-		//_order.status = controls['status'].value;
+		_order.status = 1;
 
 		return _order;
 	}
 
 	storeOrder(_order: OrderModel, wBack: boolean = false, newForm: boolean = false) {
 
-		//this.loadingSubject.next(true);
+
+		this.viewLoading = true;
 		this.orderService.storeOrder(_order).subscribe((res: OrderModel) => {
-			//this.loadingSubject.next(false);
+			this.viewLoading = false;
 
-			alert(JSON.stringify(res));
-
-			/* let itemName = `<strong>${res.product_number} - ${res.name}</strong>`;
-			let message = 'PRODUCT.EDIT.';
+			let itemName = `<strong>${res.order_number}</strong>`;
 			let _isEdited: boolean = false;
-			if (!_product.id) {
+			let message = 'ORDER.EDIT.';
+			if (!_order.id) {
 				message += 'CREATE_MESSAGE';
 			} else {
 				message += 'UPDATE_MESSAGE';
@@ -321,16 +412,63 @@ export class OrderEditComponent implements OnInit {
 			}
 
 			let _message = this.translate.instant(message, { name: itemName });
-			this.layoutUtilsService.showActionNotification(_message, _product.id ? MessageType.Create : MessageType.Update, 5000, true, false);
+			this.layoutUtilsService.showActionNotification(_message, _order.id ? MessageType.Create : MessageType.Update, 5000, true, false);
 
 
-			this.balamirOk(res, _isEdited, wBack, newForm); */
+			this.balamirOk(res, _isEdited, wBack, newForm);
+
+			this.cdr.detectChanges();
 
 		});
 	}
 
+	balamirOk(_order: OrderModel, _isEdited: boolean, wBack: boolean, newForm: boolean) {
+
+		if (wBack) {
+			this.pageBack(_order.id, _isEdited);
+			return;
+		}
+
+		if (newForm) {
+			this.pageNewForm(_order.order_number);
+		}
+
+	}
+
+	pageNewForm(order_number: string = 'none') {
+		this.router.navigate(['order/create'], { queryParams: { balamirRef: order_number } });
+	}
+
+	pageBack(id?: number, isEdit: boolean = false) {
+		let _backUrl = 'order/list';
+
+		if (this.order.id || id) {
+			_backUrl += '?id=' + this.order.id + '&balamir=' + isEdit;
+		}
+
+		this.router.navigateByUrl(_backUrl);
+	}
+
 	getTitle(): String {
-		return 'Sipariş Oluştur';
+
+		let message = '';
+
+		if (!this.order || !this.order.id) {
+			message += `Sipariş Oluştur`;
+		} else {
+			message += `${this.order.order_number} numaralı siparişi düzenle`;
+		}
+
+		return message;
+	}
+
+	reset() {
+		this.order = Object.assign({}, this.oldOrder);
+		this.formCreate();
+		this.orderFormErrors = false;
+		this.orderForm.markAsPristine();
+		this.orderForm.markAsUntouched();
+		this.orderForm.updateValueAndValidity();
 	}
 
 	createOrderItem(): FormGroup {
@@ -340,7 +478,7 @@ export class OrderEditComponent implements OnInit {
 			unit: 'DEFAULT',
 			unit_price: 0,
 			price: 0,
-			tax: null,
+			tax: 0,
 			total_price: 0
 
 		});
@@ -354,6 +492,10 @@ export class OrderEditComponent implements OnInit {
 
 	removeOrderItem(index): void {
 		this.orderItems.removeAt(index);
+	}
+
+	onAlertClose($event) {
+		this.orderFormErrors = false;
 	}
 
 }

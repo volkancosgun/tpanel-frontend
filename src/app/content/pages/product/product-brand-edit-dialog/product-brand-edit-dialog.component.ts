@@ -13,7 +13,7 @@ import { balamir } from '../../../../../environments/balamir';
 export class ProductBrandEditDialogComponent implements OnInit {
 	brand: ProductBrandModel;
 	brandForm: FormGroup;
-	hasFormErorrs: boolean = false;
+	hasFormErrors: boolean = false;
 	viewLoading: boolean = false;
 	loadingAfterSubmit: boolean = false;
 	logo: string = '../assets/app/media/img/logos/nopicture.jpg';
@@ -76,7 +76,7 @@ export class ProductBrandEditDialogComponent implements OnInit {
 	}
 
 	onAlertClose($event) {
-		this.hasFormErorrs = false;
+		this.hasFormErrors = false;
 	}
 
 	onLogoChange(event) {
@@ -99,7 +99,7 @@ export class ProductBrandEditDialogComponent implements OnInit {
 	}
 
 	onSubmit() {
-		this.hasFormErorrs = false;
+		this.hasFormErrors = false;
 		this.loadingAfterSubmit = false;
 		const controls = this.brandForm.controls;
 
@@ -108,7 +108,7 @@ export class ProductBrandEditDialogComponent implements OnInit {
 				controls[controlName].markAsTouched();
 			});
 
-			this.hasFormErorrs = true;
+			this.hasFormErrors = true;
 
 			return;
 		}
