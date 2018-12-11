@@ -99,16 +99,22 @@
                 <ng-container matColumnDef="order_number">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> No </mat-header-cell>
                     <mat-cell *matCellDef="let item">
-                        <a href="javascript:;" (click)="editOrder(item)"><strong>{{item.order_number}}</strong></a>
+                        <a href="javascript:;" (click)="detailOrder(item)"><strong>{{item.order_number}}</strong></a>
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="business_name">
+                <ng-container matColumnDef="customer_name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Müşteri </mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <a [routerLink]="['/customer/edit']" [queryParams]="{id:item.customer_id}"> {{item.customer_name}}</a> </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="business_name">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Firma </mat-header-cell>
                     <mat-cell *matCellDef="let item">
-                        {{item.business_name}}
+                        {{item.business_name || '-'}}
                     </mat-cell>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="price">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Fiyat </mat-header-cell>
@@ -125,7 +131,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="total_price">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Toplam Fiyat </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> T. Fiyat </mat-header-cell>
                     <mat-cell *matCellDef="let item">
                         {{item.total_price}}
                     </mat-cell>
@@ -145,8 +151,10 @@
                     <mat-cell *matCellDef="let item">
                         <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="{{'TABLE.ACTIONS.MORE' | translate}}"><mat-icon>more_vert</mat-icon></button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item (click)="editOrder(item)"><mat-icon>create</mat-icon><span translate="TABLE.ACTIONS.EDIT">Düzenle</span></button>
+                            <button mat-menu-item (click)="detailOrder(item)"><mat-icon>info</mat-icon><span>Detay</span></button>
+                            <!-- <button mat-menu-item (click)="editOrder(item)"><mat-icon>create</mat-icon><span translate="TABLE.ACTIONS.EDIT">Düzenle</span></button> -->
                             <button mat-menu-item (click)="deleteOrder(item)"><mat-icon>delete</mat-icon><span TRANSLATE="TABLE.ACTIONS.DELETE">Sil</span></button>
+                            <button mat-menu-item (click)="invoiceOrder(item)"><mat-icon>print</mat-icon>Fatura Oluştur</button>
                         </mat-menu>
                     </mat-cell>
                 </ng-container>

@@ -1,0 +1,72 @@
+<div class="m-portlet" [ngClass]="{'m-portlet--body-progress' : viewLoading}">
+
+    <div class="m-portlet__head">
+
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">Depolar</h3>
+            </div>
+        </div>
+
+        <div class="m-portlet__head-tools">
+            <button type="button" mat-raised-button color="primary" (click)="newStore()">Depo Oluştur</button>
+        </div>
+
+    </div>
+
+    <div class="m-portlet__body">
+        <div class="m-portlet__body-progress">
+            <mat-spinner [diameter]="50"></mat-spinner>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" *ngFor="let item of stores">
+                <mat-card class="store-card">
+                    <mat-card-header>
+                        <mat-card-title>
+                            {{item.name}}
+                        </mat-card-title>
+                        <mat-card-subtitle>
+
+                        </mat-card-subtitle>
+                    </mat-card-header>
+
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Kapasite</strong>
+                            </div>
+                            <div class="col-md-6">
+                                <div style="text-align:right;"><strong>{{item.limit}}</strong></div>
+                            </div>
+                        </div>
+                        <mat-progress-bar class="store-tank" mode="determinate" value="0"></mat-progress-bar>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="store-limit-info">
+                                    Doluluk oranı:
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="store-limit-info" style="text-align:right;">% 0</div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <div style="text-align: center;">
+                            <button mat-button mat-raised-button (click)="storeEdit()">DÜZENLE</button>
+                            <button mat-button mat-raised-button (click)="storeDetail()">DETAY</button>
+                            <button mat-icon-button mat-raised-button color="warn" (click)="stockOperation(false)"><mat-icon>remove</mat-icon></button>
+                            <button mat-icon-button mat-raised-button color="accent" (click)="stockOperation(true)"><mat-icon>add</mat-icon></button>
+                        </div>
+                    </mat-card-actions>
+                    <mat-card-footer>
+                    </mat-card-footer>
+                </mat-card>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

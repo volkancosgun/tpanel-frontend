@@ -21,7 +21,7 @@ export class OrderListComponent implements OnInit {
 
 	dataSource: OrderDataSource;
 	dataResult: OrderModel[] = [];
-	displayedColumns = ['select', 'order_number', 'business_name', 'price', 'tax_price', 'total_price', 'status'];
+	displayedColumns = ['select', 'order_number', 'customer_name', 'price', 'tax_price', 'total_price', 'status', 'actions'];
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
@@ -89,7 +89,7 @@ export class OrderListComponent implements OnInit {
 
 		filter.name = searchText;
 		filter.order_number = searchText;
-		filter.business_name = searchText;
+		filter.customer_name = searchText;
 
 		return filter;
 	}
@@ -120,7 +120,7 @@ export class OrderListComponent implements OnInit {
 	}
 
 	getItemStatusString(status: number = 0): string {
-		return this.translate.instant('ORDER.LIST.STATUS.'+status);
+		return this.translate.instant('ORDER.LIST.STATUS.' + status);
 	}
 
 	addData() {
@@ -128,17 +128,21 @@ export class OrderListComponent implements OnInit {
 	}
 
 	editOrder(order: OrderModel) {
-		this.router.navigate(['order/edit'], {queryParams: {id: order.id}});
+		this.router.navigate(['order/edit'], { queryParams: { id: order.id } });
 	}
 
 	deleteOrder(order: OrderModel) {
 		console.log(order);
 	}
 
+	detailOrder(order: OrderModel) {
+		this.router.navigate(['order/detail'], { queryParams: { id: order.id } });
+	}
+
 
 
 	deleteOrders() {
-		
+
 	}
 
 	fetchOrders() {
@@ -147,7 +151,7 @@ export class OrderListComponent implements OnInit {
 			messages.push({
 				text: `${elem.order_number}`,
 				id: elem.id.toString(),
-				status:elem.status
+				status: elem.status
 			})
 		});
 
@@ -155,6 +159,24 @@ export class OrderListComponent implements OnInit {
 	}
 
 	updateStatusForOrders() {
+
+	}
+
+	invoiceOrder(order: OrderModel) {
+
+
+		const loader = this.layoutUtilsService.showLoader();
+
+		this.orderService.createInvoiceOrder(order.id).subscribe((res: any) => {
+			loader.close();
+			if (res.error) {
+				this.layoutUtilsService.alertDialog(null, res.msg);
+				return false;
+			}
+
+			this.layoutUtilsService.showActionNotification('Fatura başarıyla oluşturuldu.', MessageType.Create);
+
+		});
 
 	}
 

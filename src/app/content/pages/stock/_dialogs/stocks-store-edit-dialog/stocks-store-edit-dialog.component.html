@@ -1,0 +1,67 @@
+<div class="m-portlet" [ngClass]="{'m-portlet--body-progress': viewLoading}">
+
+    <div class="m-portlet__head">
+
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">{{ getTitle() }}</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="m-form" [formGroup]="storeForm">
+        <div class="m-portlet__body">
+
+            <div class="m-portlet__body-progress">
+                <mat-spinner [diameter]="50"></mat-spinner>
+            </div>
+
+            <m-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                <span translate="FORM.REQUIRED.ERROR">Lütfen gerekli alanları doldurunuz.</span>
+            </m-alert>
+
+            <div class="m-form m-form__section">
+
+                <div class="form-group m-form__group row">
+                    <label class="col-lg-2 col-form-label">Depo Adı:</label>
+                    <div class="col-lg-6">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Örn: DEPO 1" formControlName="name">
+                            <mat-hint align="start">Lütfen depo için bir ad giriniz</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="form-group m-form__group row">
+                    <label class="col-lg-2 col-form-label">Kapasite:</label>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <input matInput type="number" formControlName="limit">
+                            <mat-hint align="start">Lütfen depo için bir kapasite belirleyin</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="m-portlet__foot">
+        <div class="m-form__actions m-form__actions--solid">
+            <div class="row text-right">
+                <div class="col-12">
+                    <button type="button" mat-raised-button cdkFocusInitial (click)="onCancel()">
+							<span translate="BUTTON.CANCEL">İptal et</span>
+						</button> &nbsp;
+                    <button type="button" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="viewLoading">
+							<span translate="BUTTON.SAVE">Kaydet</span>
+						</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -35,6 +35,16 @@ const routes: Routes = [
 				canActivate: [AuthGuard]
 			},
 			{
+				path: 'stock',
+				loadChildren: './stock/stock.module#StockModule',
+				canActivate: [AuthGuard]
+			},
+			{
+				path: 'settings',
+				loadChildren: './settings/settings.module#SettingsModule',
+				canActivate: [AuthGuard]
+			},
+			{
 				path: 'builder',
 				loadChildren: './builder/builder.module#BuilderModule'
 			},

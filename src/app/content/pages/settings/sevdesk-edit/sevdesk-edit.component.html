@@ -1,0 +1,105 @@
+<!-- <m-notice [icon]="'flaticon-exclamation m--font-primary'">
+    API Kurulumu için <a href="">sevDesk API Anahtarı</a> gerekmektedir.
+    <br><br>
+    <strong>API Anahtarı nasıl öğrenilir?</strong>
+    <ul>
+        <li><a href="https://my.sevdesk.de/#/login" target="_blank">my.sevdesk.de</a> bağlantısına tıklayın.</li>
+        <li>Kullanıcı adı ve Şifreniz ile oturum açınız.</li>
+		<li>Menüden <strong>Users</strong> bağlantısına tıklayın.</li>
+		<li>Kullanıcı üzerine girin ve API KEY S</li>
+    </ul>
+</m-notice> -->
+
+<div class="m-portlet">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">sevDesk-API Ayarları</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-portlet__body">
+        <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+            <div class="m-portlet__body">
+                <div class="form-group m-form__group row">
+                    <label class="col-lg-2 col-form-label">API KEY:</label>
+                    <div class="col-lg-6">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="API KEY">
+                            <mat-hint align="start">Lütfen sevDesk API Key anahtarını giriniz.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-lg-2 col-form-label"></label>
+                    <div class="col-lg-6">
+                        <mat-slide-toggle name="human2">Mevcut müşterileri sevDesk tarafına aktar.</mat-slide-toggle>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-lg-2 col-form-label">Email address:</label>
+                    <div class="col-lg-6">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Enter email" type="email">
+                            <mat-hint align="start">We'll never share your email with anyone else</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-lg-2 col-form-label">Favorite food:</label>
+                    <div class="col-lg-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Favorite food">
+                                <mat-option *ngFor="let food of foods" [value]="food.value">
+                                    {{ food.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="m-form__group m-form__group--last form-group row">
+                    <label class="col-lg-2 col-form-label">Communication:</label>
+                    <div class="col-lg-6">
+                        <div class="m-checkbox-list">
+                            <p>
+                                <mat-checkbox>Email</mat-checkbox>
+                            </p>
+                            <p>
+                                <mat-checkbox>SMS</mat-checkbox>
+                            </p>
+                            <p>
+                                <mat-checkbox>Phone</mat-checkbox>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                <div class="m-form__actions m-form__actions--solid">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-6">
+                            <button mat-raised-button color="primary">Submit</button>
+                            <button mat-raised-button type="reset">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- <mat-card>
+    <mat-card-header>
+        <mat-card-title>sevDesk API Kurulumu</mat-card-title>
+        <mat-card-subtitle>Apı kurulumu</mat-card-subtitle>
+    </mat-card-header>
+</mat-card> -->
+
+<!-- <mat-form-field appearance="outline">
+    <mat-label>API KEY</mat-label>
+    <input matInput placeholder="sevDesk API KEY">
+    <mat-icon matSuffix>vpn_key</mat-icon>
+    <mat-hint>Daha fazla bilgi için <a href="#">buraya</a> tıklayınız.</mat-hint>
+</mat-form-field> -->

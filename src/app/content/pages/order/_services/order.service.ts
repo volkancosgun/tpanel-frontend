@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import 'rxjs/add/operator/map'
 import { OrderModel } from '../_models/order.model';
 import { balamir } from '../../../../../environments/balamir';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -24,6 +25,10 @@ export class OrderService {
 		);
 	}
 
+	getOrderList(): Observable<OrderModel[]> {
+		return this._http.get<OrderModel[]>(`${balamir.API_URL}/order/list`);
+	}
+
 	getOrderById(order_id: number): Observable<OrderModel> {
 		return this._http.get<OrderModel>(`${balamir.API_URL}/order/my/${order_id}`);
 	}
@@ -34,5 +39,16 @@ export class OrderService {
 
 	getOrderItems(order_id: number): Observable<OrderItemModel[]> {
 		return this._http.get<OrderItemModel[]>(`${balamir.API_URL}/order/item/list/${order_id}`);
+	}
+
+	createInvoiceOrder(order_id: number): Observable<any> {
+		return this._http.get<any>(`${balamir.API_URL}/order/invoice/${order_id}`);
+	}
+
+	downloadInvoice(url: string) {
+		return this._http.get(url, { observe: 'response', responseType: 'blob' })
+			.map((res) => {
+				return new Blob([res.body], { type: res.headers.get('Content-Type') });
+			})
 	}
 }

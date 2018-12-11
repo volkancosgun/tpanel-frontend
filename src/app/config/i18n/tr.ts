@@ -68,6 +68,8 @@ export const locale = {
 			UPDATE: 'Güncelle',
 			OK: 'Tamam',
 			SAVE: 'Kaydet',
+			YES: 'Evet',
+			NO: 'Hayır',
 			SAVE_CHANGES: 'Değişiklikleri Kaydet',
 			SAVE_CONTINUE: 'Kaydet & Devam et',
 			SAVE_EXIT: 'Kaydet & Çık',
@@ -249,6 +251,12 @@ export const locale = {
 			EDIT: {
 				CREATE_MESSAGE: '{{name}} adlı ürün başarıyla oluşturuldu.',
 				UPDATE_MESSAGE: '{{name}} adlı ürün başarıyla düzenlendi.'
+			},
+			UNIT: {
+				DEFAULT: 'Adet',
+				CARTON: 'Karton',
+				PALETTE: 'Palet',
+				CONTAINER: 'Konteyner'
 			},
 			CATEGORY: {
 				CREATE: 'Yeni Kategori Oluştur',

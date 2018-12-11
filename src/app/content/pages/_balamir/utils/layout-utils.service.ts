@@ -6,6 +6,9 @@ import { DeleteEntityDialogComponent } from '../shared/delete-entity-dialog/dele
 import { FetchEntityDialogComponent } from '../shared/fetch-entity-dialog/fetch-entity-dialog.component';
 import { UpdateStatusDialogComponent } from '../shared/update-status-dialog/update-status-dialog.component';
 import { ActionNotificationComponent } from '../shared/action-natification/action-notification.component';
+import { AlertDialogComponent } from '../shared/alert-dialog/alert-dialog.component';
+import { ShowLoaderComponent } from '../shared/show-loader/show-loader.component';
+import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
 
 
 export enum MessageType {
@@ -46,12 +49,40 @@ export class LayoutUtilsService {
 		});
 	}
 
-	// Method returns instance of MatDialog
+	// Silme penceresi
 	deleteElement(title: string = '', description: string = '', waitDesciption: string = '') {
 		return this.dialog.open(DeleteEntityDialogComponent, {
 			data: { title, description, waitDesciption },
 			width: '440px'
 		});
+	}
+
+	// Onay penceresi
+	confirmDialog(title: string = '', msg: string = '', okButton: string = '', cancelButton: string = '') {
+		return this.dialog.open(ConfirmDialogComponent, {
+			data: { title, msg, okButton, cancelButton },
+			width: '440px'
+		});
+	}
+
+	// Uyari penceresi
+	alertDialog(title: string = '', msg: string = '') {
+		return this.dialog.open(AlertDialogComponent, {
+			data: { title, msg },
+			width: '440px'
+		});
+	}
+
+	// Loader spinner
+	showLoader(msg: string = '') {
+		return this.dialog.open(ShowLoaderComponent, {
+			data: msg,
+			width: '440px',
+			disableClose: true,
+			panelClass: 'transparent',
+
+		});
+
 	}
 
 	// Method returns instance of MatDialog

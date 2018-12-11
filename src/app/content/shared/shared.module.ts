@@ -47,7 +47,13 @@ import {
 	MatAutocompleteModule,
 	MAT_DIALOG_DEFAULT_OPTIONS,
 	MatSnackBarModule,
-	MatTooltipModule
+	MatTooltipModule,
+	MatStepperModule,
+	MatSlideToggleModule,
+	MatChipsModule,
+	MatExpansionModule,
+	MatBottomSheetModule,
+	MatListModule
 } from '@angular/material';
 import { NgSelectModule, NG_SELECT_DEFAULT_CONFIG } from '@ng-select/ng-select';
 
@@ -60,6 +66,9 @@ import { FetchEntityDialogComponent } from '../pages/_balamir/shared/fetch-entit
 import { UpdateStatusDialogComponent } from '../pages/_balamir/shared/update-status-dialog/update-status-dialog.component';
 import { TypesUtilsService } from '../pages/_balamir/utils/types-utils.service';
 import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
+import { AlertDialogComponent } from '../pages/_balamir/shared/alert-dialog/alert-dialog.component';
+import { ShowLoaderComponent } from '../pages/_balamir/shared/show-loader/show-loader.component';
+import { ConfirmDialogComponent } from '../pages/_balamir/shared/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -89,6 +98,7 @@ import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
 		MatRadioModule,
 		MatIconModule,
 		MatNativeDateModule,
+		MatSlideToggleModule,
 		MatProgressBarModule,
 		MatDatepickerModule,
 		MatCardModule,
@@ -99,6 +109,11 @@ import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
 		MatSnackBarModule,
 		MatTabsModule,
 		MatTooltipModule,
+		MatStepperModule,
+		MatChipsModule,
+		MatExpansionModule,
+		MatBottomSheetModule,
+		MatListModule,
 	],
 	entryComponents: [
 		AlertComponent,
@@ -106,6 +121,9 @@ import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
 		DeleteEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
+		AlertDialogComponent,
+		ShowLoaderComponent,
+		ConfirmDialogComponent,
 	],
 	declarations: [
 		MapSearchDirective,
@@ -115,6 +133,9 @@ import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
 		DeleteEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
+		AlertDialogComponent,
+		ShowLoaderComponent,
+		ConfirmDialogComponent
 	],
 	exports: [
 		CommonModule,
@@ -138,6 +159,7 @@ import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
 		MatRadioModule,
 		MatIconModule,
 		MatNativeDateModule,
+		MatSlideToggleModule,
 		MatProgressBarModule,
 		MatDatepickerModule,
 		MatCardModule,
@@ -148,6 +170,11 @@ import { HttpUtilsService } from '../pages/_balamir/utils/http-utils.service';
 		MatSnackBarModule,
 		MatTabsModule,
 		MatTooltipModule,
+		MatStepperModule,
+		MatChipsModule,
+		MatExpansionModule,
+		MatBottomSheetModule,
+		MatListModule,
 		// Balamir
 		AlertComponent,
 		ActionNotificationComponent,

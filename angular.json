@@ -131,7 +131,8 @@
     "schematics": {
         "@schematics/angular:component": {
             "prefix": "m",
-            "styleext": "scss"
+            "styleext": "scss",
+            "spec": false
         },
         "@schematics/angular:directive": {
             "prefix": "m"

@@ -182,6 +182,34 @@ export class MenuConfig implements ConfigModel {
 								title: 'Sipariş Oluştur',
 								page: '/order/create'
 							},
+							{
+								title: 'Sipariş Detayı',
+								page: '/order/detail'
+							}
+						]
+					},
+					{
+						title: 'Stok Yönetimi',
+						root: true,
+						bullet: 'dot',
+						icon: 'flaticon-web',
+						submenu: [
+							{
+								title: 'Depolar',
+								page: '/stock/store/list'
+							},
+						]
+					},
+					{
+						title: 'Ayarlar',
+						root: true,
+						bullet: 'dot',
+						icon: 'flaticon-settings',
+						submenu: [
+							{
+								title: 'sevDesk Api',
+								page: '/settings/sevdesk'
+							}
 						]
 					},
 

@@ -18,6 +18,7 @@ import { LocationsEditComponent } from '../_subs/locations/locations-edit/locati
 
 import { MatTableDataSource } from '@angular/material';
 import { MenuConfigService } from '../../../../core/services/menu-config.service';
+import { SettingsService } from '../../settings/_services/settings.service';
 
 @Component({
 	selector: 'm-customer-edit',
@@ -44,6 +45,7 @@ export class CustomerEditComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private customerService: CustomerService,
+		private settingsService: SettingsService,
 		private subheaderService: SubheaderService,
 		private translate: TranslateService,
 		private customerFB: FormBuilder,
@@ -261,6 +263,13 @@ export class CustomerEditComponent implements OnInit {
 	addCustomer(_customer: CustomerModel, wBack: boolean = false, newForm: boolean = false) {
 		this.loadingSubject.next(true);
 		this.customerService.customerCreate(_customer).subscribe(res => {
+
+			if (res.id) {
+				this.settingsService.sevdeskTransferById(res.id).subscribe((res: any) => {
+					console.log(res);
+				});
+			}
+
 			this.loadingSubject.next(false);
 			if (wBack) {
 				this.goBack(res.id, 'create');
@@ -274,6 +283,8 @@ export class CustomerEditComponent implements OnInit {
 					this.refreshCustomer(res.id);
 				}
 			}
+
+
 		});
 	}
 

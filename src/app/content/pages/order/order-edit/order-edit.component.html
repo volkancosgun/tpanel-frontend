@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <form *ngIf="afterLoading" [formGroup]="orderForm" class="m-form m-form--label-align-left- m-form--state">
+    <form *ngIf="afterLoading && orderForm" [formGroup]="orderForm" class="m-form m-form--label-align-left- m-form--state">
 
         <div class="m-portlet__body">
             <div class="m-portlet__body-progress">
@@ -35,59 +35,85 @@
                         <div class="m-form__heading">
                             <h3 class="m-form__heading-title">Müşteri ve Fatura Bilgileri</h3>
                         </div>
+
+
                         <div class="m-form__group">
                             <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
 
-                                <div class="col-md-6 m--margin-bottom-10-mobile">
-                                    <div class="mat-form-field-fluid">
-                                        <ng-select [items]="customers" [searchFn]="customerSearch" bindLabel="name" bindValue="id" [loading]="customerLoading" placeholder="Müşteri" formControlName="customer_id">
-                                            <ng-template ng-label-tmp let-item="item">
-                                                <div>{{item.customer_number}} - {{item.name}}</div>
-                                            </ng-template>
-                                            <ng-template ng-option-tmp let-item="item" let-index="index">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">{{item.customer_number}}</h5>
-                                                    <h6 class="card-subtitle mb-2 text-muted">{{item.name}} {{item.surname}} - {{item.business_name}}</h6>
-                                                </div>
-                                            </ng-template>
+                                        <div class="col-md-6 m--margin-bottom-10-mobile">
+                                            <div class="mat-form-field-fluid">
+                                                <ng-select [items]="customers" [searchFn]="customerSearch" bindLabel="name" bindValue="id" [loading]="customerLoading" placeholder="Müşteri" formControlName="customer_id">
+                                                    <ng-template ng-label-tmp let-item="item">
+                                                        <div>{{item.customer_number}} - {{item.name}}</div>
+                                                    </ng-template>
+                                                    <ng-template ng-option-tmp let-item="item" let-index="index">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">{{item.customer_number}}</h5>
+                                                            <h6 class="card-subtitle mb-2 text-muted">{{item.name}} {{item.surname}} - {{item.business_name}}</h6>
+                                                        </div>
+                                                    </ng-template>
 
-                                        </ng-select>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 m--margin-bottom-10-mobile">
+                                            <div class="mat-form-field-fluid">
+                                                <ng-select [items]="customerAdr" [searchFn]="customerAdrSearch" bindLabel="country" bindValue="id" [loading]="customerAdrLoading" placeholder="Adres Türü" formControlName="customer_location_id">
+                                                    <ng-template ng-label-tmp let-item="item">
+                                                        <div>
+                                                            {{getLangLocationType(item.location_type)}} - {{item.country}}
+                                                        </div>
+                                                    </ng-template>
+
+                                                    <ng-template ng-option-tmp let-item="item" let-index="index">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">
+                                                                {{getLangLocationType(item.location_type)}}
+                                                            </h5>
+                                                            <h6 class="card-subtitle mb-2 text-muted">{{item.city}} / {{item.country}}</h6>
+                                                        </div>
+                                                    </ng-template>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 m--margin-bottom-10-mobile">
+                                            <mat-form-field class="mat-form-field-fluid">
+                                                <textarea matInput placeholder="Fatura Adresi" formControlName="bill_address"></textarea>
+                                            </mat-form-field>
+                                        </div>
+
                                     </div>
-
                                 </div>
 
-                                <div class="col-md-6 m--margin-bottom-10-mobile">
-                                    <div class="mat-form-field-fluid">
-                                        <ng-select [items]="customerAdr" [searchFn]="customerAdrSearch" bindLabel="country" bindValue="id" [loading]="customerAdrLoading" placeholder="Adres Türü" formControlName="customer_location_id">
-                                            <ng-template ng-label-tmp let-item="item">
-                                                <div>
-                                                    {{getLangLocationType(item.location_type)}} - {{item.country}}
-                                                </div>
-                                            </ng-template>
-
-                                            <ng-template ng-option-tmp let-item="item" let-index="index">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">
-                                                        {{getLangLocationType(item.location_type)}}
-                                                    </h5>
-                                                    <h6 class="card-subtitle mb-2 text-muted">{{item.city}} / {{item.country}}</h6>
-                                                </div>
-                                            </ng-template>
-                                        </ng-select>
+                                <div class="col-md-4">
+                                    <div *ngIf="order.id">
+                                        <div><strong>Sipariş Numarası:</strong><br> {{order.order_number}}</div>
+                                        <hr>
+                                        <div><strong>Tarih:</strong><br> {{order.created_at}}</div>
+                                        <hr>
+                                        <div><strong>Personel:</strong><br> {{order.user.name}}</div>
+                                        <hr>
                                     </div>
-                                </div>
+                                    <!-- <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Sipariş Numarası" autocomplete="off">
+                                    </mat-form-field> -->
 
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12 m--margin-bottom-10-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <textarea matInput placeholder="Fatura Adresi" formControlName="bill_address"></textarea>
+                                        <input matInput [matDatepicker]="picker" placeholder="Teslimat Tarihi" formControlName="delivered_date" autocomplete="off" />
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                             </div>
-
                         </div>
+
+
+
+                        <hr>
 
                         <div class="m-form__heading">
                             <h3 class="m-form__heading-title">Ürün ve Sipariş Bilgileri</h3>
@@ -101,7 +127,7 @@
                                     <strong>Ürün</strong>
                                 </div>
 
-                                <div class="col-sm-1">
+                                <div class="col-sm-2">
                                     <strong>Miktar</strong>
                                 </div>
 
@@ -113,7 +139,7 @@
                                     <strong>Fiyat</strong>
                                 </div>
 
-                                <div class="col-sm-1">
+                                <div class="col-sm-0" style="display:none">
                                     <strong>Kdv</strong>
                                 </div>
 
@@ -152,7 +178,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-2">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput type="number" min="1" formControlName="amount" autocomplete="off">
                                         </mat-form-field>
@@ -176,7 +202,7 @@
                                         </mat-form-field>
                                     </div>
 
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-0" style="display:none;">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput currencyMask formControlName="tax" autocomplete="off">
                                             <span matPrefix>%&nbsp;</span>
@@ -191,7 +217,7 @@
                                     </div>
 
                                     <div class="col-sm-1">
-                                        <button type="button" *ngIf="i >= 1" mat-icon-button color="warn" (click)="removeOrderItem(i)" matTooltip="Cancel changes">
+                                        <button type="button" *ngIf="i >= 1" mat-icon-button color="warn" (click)="removeOrderItem(i)" matTooltip="sil">
 									<mat-icon>clear</mat-icon>
 								</button>
                                     </div>
@@ -204,7 +230,7 @@
 
                         <!-- TABLE END -->
                         <hr>
-                        <div class="m-widget4">
+                        <div class="m-widget4 col-md-4 offset-8">
                             <div class="m-widget4__item">
                                 <div class="m-widget4__info">
                                     <span class="m-widget4__title">

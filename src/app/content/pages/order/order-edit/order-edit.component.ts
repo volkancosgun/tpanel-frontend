@@ -47,6 +47,7 @@ export class OrderEditComponent implements OnInit, AfterViewInit {
 	viewLoading: boolean = false;
 
 	afterLoading: boolean = false;
+	loadingAfterSubmit: boolean = false;
 
 	constructor(
 		private customerService: CustomerService,
@@ -60,8 +61,6 @@ export class OrderEditComponent implements OnInit, AfterViewInit {
 		private cdr: ChangeDetectorRef
 	) {
 		this.Math = Math;
-
-
 	}
 
 	get orderItemsData() { return <FormArray>this.orderForm.get('orderItems'); }
@@ -82,15 +81,12 @@ export class OrderEditComponent implements OnInit, AfterViewInit {
 					this.oldOrder = Object.assign({}, res);
 
 					this.initOrder();
-					
+
 					this.loadOrderItems();
 					this.removeOrderItem(0);
 
-					
+
 					this.orderForm.get('customer_id').setValue(res.customer_id, { emitEvent: true });
-
-					
-
 
 				});
 
@@ -309,7 +305,7 @@ export class OrderEditComponent implements OnInit, AfterViewInit {
 		this.customerAdrLoading = true;
 		this.viewLoading = true;
 		this.customerService.findLocationByCustomerId(customer_id).subscribe((data: CustomerLocationsModel[]) => {
-			
+
 			if (!data.length) {
 				this.orderForm.patchValue({ customer_location_id: null, bill_address: null });
 			}
@@ -353,6 +349,8 @@ export class OrderEditComponent implements OnInit, AfterViewInit {
 			customer_id: [this.order.customer_id, [Validators.required]],
 			customer_location_id: [this.order.location_id, [Validators.required]],
 			bill_address: [this.order.bill_address, [Validators.required]],
+			delivered_date: [this.order.delivered_date, [Validators.nullValidator]],
+			//order_number: [this.order.order_number, [Validators.required]],
 			orderItems: this.fb.array([this.createOrderItem()])
 		});
 	}
@@ -372,6 +370,7 @@ export class OrderEditComponent implements OnInit, AfterViewInit {
 		}
 
 		let storeOrder = this.prepareOrder();
+		console.log(storeOrder);
 		this.storeOrder(storeOrder, wBack, newForm);
 	}
 
@@ -379,12 +378,14 @@ export class OrderEditComponent implements OnInit, AfterViewInit {
 	prepareOrder(): OrderModel {
 
 		const controls = this.orderForm.controls;
+
 		const _order = new OrderModel();
 
 		_order.id = this.order.id;
 		_order.customer_id = controls['customer_id'].value;
 		_order.location_id = controls['customer_location_id'].value;
 		_order.bill_address = controls['bill_address'].value;
+		_order.delivered_date = controls['delivered_date'].value;
 		_order.price = this.orderTotalNetto;
 		_order.tax_price = this.orderTotalTax;
 		_order.total_price = this.orderTotalPrice;

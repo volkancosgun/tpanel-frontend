@@ -1,0 +1,68 @@
+<div class="m-portlet" [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <span class="m-portlet__head-icon m--hide">
+							<i class="la la-gear"></i>
+						</span>
+                <h3 class="m-portlet__head-text">sevDesk API Ayarları</h3>
+            </div>
+        </div>
+
+        <div class="m-portlet__head-tools">
+            <button *ngIf="!sevDeskApiKey" type="button" (click)="setupApiKey()" mat-raised-button matToolTip="sevDesk API Key Ekle" color="primary">
+				<span>API Kurulum Sihirbazı</span>
+			</button>
+            <button *ngIf="sevDeskApiKey" type="button" (click)="removeApiKey()" mat-raised-button matToolTip="sevDesk API Key Ekle" color="warn">
+					<span>API Bağlantısını Kaldır</span>
+				</button>
+            <button *ngIf="sevDeskApiKey" type="button" (click)="editedApiKey()" mat-raised-button matToolTip="sevDesk API Key Ekle" color="primary">
+				<span>API Bağlantısını Düzenle</span>
+			</button>
+            <button type="button" (click)="startTransfer()" mat-raised-button color="accent">
+				Tüm Müşterileri Aktar
+			</button>
+        </div>
+
+    </div>
+
+
+
+    <div class="m-portlet__body">
+        <div class="m-portlet__body-progress">
+            <mat-spinner [diameter]="30"></mat-spinner>
+        </div>
+
+
+        <m-notice *ngIf="!sevDeskApiKey" [icon]="'flaticon-exclamation m--font-primary'">
+            API bağlantısı yok. <br>sevDesk API bağlantısı için lütfen, <strong>API Kurulum Sihirbazı</strong> butonuna tıklayınız.
+        </m-notice>
+
+        <div class="m-widget28" *ngIf="sevDeskApiKey">
+            <div class="m-widget28__container">
+                <div class="m-widget28__tab tab-content">
+                    <div class="m-widget28__tab-container tab-pane active">
+                        <div class="m-widget28__tab-items">
+                            <div class="m-widget28__tab-item">
+                                <span>sevDeskApi Key</span>
+                                <span>{{sevDeskApiKey}}</span>
+                            </div>
+                            <div class="m-widget28__tab-item">
+                                <span>sevDesk Kullanıcı IDsi</span>
+                                <span>{{sevDeskUserId}}</span>
+                            </div>
+                            <div class="m-widget28__tab-item">
+                                <span>sevDesk Kullanıcı</span>
+                                <span>{{sevDeskFullName}}</span>
+                            </div>
+                            <div class="m-widget28__tab-item">
+                                <span>sevDesk Api Email Adresi</span>
+                                <span>{{sevDeskEmail}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

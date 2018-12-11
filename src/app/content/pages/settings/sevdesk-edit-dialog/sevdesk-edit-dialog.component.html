@@ -1,0 +1,68 @@
+<div class="m-portlet" [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <span class="m-portlet__head-icon m--hide">
+						<i class="la la-gear"></i>
+					</span>
+                <h3 class="m-portlet__head-text">{{ getTitle() }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-form">
+        <div class="m-portlet__body">
+
+            <div class="m-portlet__body-progress">
+                <mat-spinner [diameter]="30"></mat-spinner>
+            </div>
+
+            <m-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                <span translate="FORM.REQUIRED.ERROR">Lütfen gerekli alanları doldurunuz.</span>
+            </m-alert>
+
+            <m-alert *ngIf="sevDeskKeyError" type="warn" [duration]="3000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                <span>sevDesk Api Key hatalı lütfen kontrol ediniz.</span>
+            </m-alert>
+
+            <form [formGroup]="sevDeskForm" (ngSubmit)="onSubmit()" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                <div class="m-portlet__body">
+                    <div class="form-group m-form__group row">
+                        <label class="col-md-2 col-form-label">API KEY:</label>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput formControlName="apiKey" placeholder="API KEY">
+                                <mat-hint align="start">Lütfen sevDesk API Key anahtarını giriniz.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label class="col-md-2 col-form-label"></label>
+                        <div class="col-md-6">
+                            <mat-slide-toggle formControlName="cTransfer">Mevcut müşterileri sevDesk tarafına aktar.</mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+            <div class="m-form__actions m-form__actions--solid">
+                <div class="row text-right">
+                    <div class="col-lg-12">
+                        <button type="button" mat-raised-button cdkFocusInitial (click)="onCancel()" matTooltip="Değişiklikleri iptal et">
+								<span translate="BUTTON.CANCEL">Vazgeç</span>
+							</button> &nbsp;
+                        <button type="button" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Değişiklikleri kaydet">
+								<span translate="BUTTON.SAVE">Kaydet</span>
+							</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

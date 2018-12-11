@@ -11,6 +11,7 @@ import { CustomerService } from './_services/customer.service';
 
 import { LocationsEditComponent } from './_subs/locations/locations-edit/locations-edit.component';
 import { LocationsListComponent } from './_subs/locations/locations-list/locations-list.component';
+import { SettingsService } from '../settings/_services/settings.service';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { LocationsListComponent } from './_subs/locations/locations-list/locatio
 		LocationsListComponent,
 	],
 	providers: [
-		CustomerService
+		CustomerService,
+		SettingsService
 	]
 })
 export class CustomerModule { }
